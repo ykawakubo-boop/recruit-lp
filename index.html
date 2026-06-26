@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダイアモンドヘッド株式会社 | 採用情報 (Avant-Garde Luxury Tech)</title>
+    
+    <style>
+        /* =========================================
+           1. 全体設定・フォント読み込み
+           ========================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap');
+
+        :root {
+            --bg-base: #ffffff;
+            --text-dark: #111111;
+            --text-muted: #555555;
+            --border-color: #e2e8f0;
+            --accent-blue: #00bfa5; 
+            --job-color-1: #111111; 
+            --job-color-2: #333333; 
+            --job-color-3: #555555; 
+            --job-color-4: #222222; 
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%;
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1240px; margin: 0 auto;
+            padding: 100px 8%; box-sizing: border-box;
+        }
+
+        .section-tag {
+            font-size: 1rem; font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 0.2em;
+            margin-bottom: 16px; text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* GPUレンダリング時（ホバーやフィルター時）の画像ボヤけバグを解消する定義 */
+        .job-cinematic-image img,
+        .mobile-job-image img,
+        .story-image,
+        .culture-img-wrapper img,
+        .office-slide-img img {
+            image-rendering: -webkit-optimize-contrast;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
+            will-change: transform, filter;
+        }
+
+        /* =========================================
+           2. ヒーローセクション (Ken Burns & Smooth Fade)
+           ========================================= */
+        .hero {
+            position: relative; width: 100%; height: 100vh; min-height: 600px;
+            display: flex; align-items: center; justify-content: flex-start;
+            box-sizing: border-box; padding: 0 10%; overflow: hidden;
+        }
+
+        .slider-wrapper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+        }
+
+        .bg-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; 
+            opacity: 0;
+            filter: grayscale(70%) contrast(1.1) brightness(0.9);
+            transform: scale(1);
+            transition: opacity 1.8s ease-in-out, transform 6s ease-out;
+        }
+
+        /* アクティブな時にKen Burns(ゆっくり拡大)を適用 */
+        .bg-slide.active {
+            opacity: 1;
+            transform: scale(1.06);
+            z-index: 3;
+        }
+
+        .hero::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.92) 28%, rgba(255,255,255,0.05) 75%, rgba(255,255,255,1) 100%);
+            z-index: 4;
+        }
+
+        .hero-content {
+            position: relative; z-index: 10; max-width: 60%;
+            display: flex; flex-direction: column; align-items: flex-start;
+        }
+
+        .hero-logo {
+            width: clamp(150px, 15vw, 200px); margin-bottom: 24px;
+            opacity: 0; transform: translateY(20px); animation: fadeInUp 1.2s ease forwards 0.1s;
+        }
+        
+        .hero-logo img { width: 100%; height: auto; }
+
+        .hero-logo-sub {
+            font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 700;
+            letter-spacing: 0.84em; color: #555555; margin-top: 14px; text-indent: 0.84em;
+        }
+
+        .hero-title { margin: 0; display: flex; flex-direction: column; align-items: flex-start; }
+
+        .hero-tagline {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: clamp(32px, 4.2vw, 56px); font-weight: 900; color: #111111;
+            line-height: 1.35; letter-spacing: 0.02em; margin: 0;
+            opacity: 0; transform: translateY(30px); animation: fadeInUp 1.2s ease forwards 0.3s;
+        }
+
+        .hero-keyline {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: clamp(14px, 1.8vw, 20px); font-weight: 400; color: #333333;
+            margin-top: 24px; line-height: 1.6; letter-spacing: 0.08em;
+            opacity: 0; transform: translateY(20px); animation: fadeInUp 1.2s ease forwards 0.6s;
+            border-left: 2px solid var(--accent-blue);
+            padding-left: 20px;
+        }
+
+        /* =========================================
+           3. ナビゲーション
+           ========================================= */
+        .nav-placeholder { display: none; }
+        .main-nav {
+            width: 100%; background-color: #ffffff; border-bottom: 1px solid #f0f0f0;
+            display: flex; justify-content: center; padding: 20px 0;
+            z-index: 1000;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .main-nav.is-fixed {
+            position: fixed; top: 0; left: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+        }
+        .main-nav.is-hidden { transform: translateY(-100%); }
+
+        .nav-list { display: flex; gap: 40px; list-style: none; margin: 0; padding: 0; }
+        .nav-list a {
+            text-decoration: none; color: #111111; font-size: 13px; font-weight: 700;
+            letter-spacing: 0.15em; position: relative; transition: color 0.3s ease;
+        }
+        .nav-list a:hover { color: var(--accent-blue); }
+        .nav-list a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: -6px; left: 0;
+            background-color: var(--accent-blue); transition: width 0.3s ease;
+        }
+        .nav-list a:hover::after { width: 100%; }
+
+        /* =========================================
+           4. ビジネスセクション
+           ========================================= */
+        .business-concept {
+            font-size: clamp(20px, 3.5vw, 42px); font-weight: 700; line-height: 1.4;
+            margin: 0 auto 40px auto; text-align: center; white-space: nowrap; letter-spacing: -0.01em;
+        }
+        .business-lead {
+            font-size: clamp(15px, 1.8vw, 18px); font-weight: 400; color: #555555;
+            text-align: center; line-height: 1.8; max-width: 800px; margin: 0 auto 70px auto;
+        }
+        .business-lead::before {
+            content: ''; display: block; width: 40px; height: 2px; background-color: var(--accent-blue); margin: 0 auto 24px auto;
+        }
+
+        .story-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 60px; gap: 5%; }
+        .story-row:nth-child(even) { flex-direction: row-reverse; }
+        .story-row:last-child { margin-bottom: 0; }
+        
+        .story-text { flex: 1; max-width: 48%; }
+        .story-label {
+            font-size: 14px; font-weight: 700; color: #666666; margin-bottom: 12px;
+            letter-spacing: 0.05em; display: flex; align-items: center; gap: 12px;
+        }
+        .story-label::after {
+            content: ''; display: inline-block; width: 32px; height: 2px; background-color: var(--accent-blue);
+        }
+        
+        .story-title { font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; line-height: 1.4; margin: 0 0 12px 0; }
+        .story-body { font-size: 14.5px; color: #555555; line-height: 1.7; margin: 0; }
+
+        .story-image-wrapper {
+            flex: 1; max-width: 47%; height: 280px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .story-image {
+            width: 100%; height: 100%; background-size: cover; background-position: center;
+            filter: grayscale(70%); transition: transform 0.6s ease, filter 1.5s ease;
+        }
+        .story-image-wrapper:hover .story-image { transform: scale(1.05); filter: grayscale(0%); }
+        .story-image.colorized { filter: grayscale(0%); }
+
+        /* =========================================
+           5. ジョブセクション
+           ========================================= */
+        .jobs-section {
+            background-color: #ffffff;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        .jobs-title {
+            font-size: clamp(24px, 4vw, 36px); font-weight: 700; color: #111111;
+            margin: 0 0 40px 0; text-align: center;
+        }
+        .jobs-full-container { width: 100%; display: block; max-width: 1300px; margin: 0 auto; }
+        .jobs-interactive-accordion { width: 100%; display: flex; flex-direction: column; border-top: 1px solid var(--border-color); }
+
+        .accordion-row {
+            border-bottom: 1px solid var(--border-color);
+            padding: 40px 8%; cursor: pointer;
+            transition: padding 0.5s ease, background-color 0.4s ease;
+            position: relative; overflow: hidden;
+        }
+
+        .accordion-row.active { padding: 50px 8% 40px 8%; background-color: #fafafa; }
+        
+        @media (hover: hover) {
+            .accordion-row:hover { padding: 50px 8% 40px 8%; background-color: #fafafa; }
+        }
+
+        .accordion-headline-wrap { display: flex; align-items: baseline; justify-content: flex-start; width: 100%; }
+        .accordion-num {
+            font-family: 'Bodoni Moda', serif; font-size: 32px; font-weight: 900;
+            color: #e2e8f0; margin-right: 40px; width: 60px; text-align: left;
+            transition: color 0.4s ease;
+        }
+        .accordion-title-en {
+            font-family: 'Bodoni Moda', serif; font-size: clamp(24px, 3.5vw, 40px);
+            font-weight: 900; text-transform: uppercase; color: #111111; letter-spacing: 0.05em; line-height: 1;
+            transition: transform 0.4s ease;
+        }
+        .accordion-title-jp {
+            font-size: 15px; font-weight: 700; color: #888; margin-left: 24px;
+            transition: color 0.4s ease;
+        }
+
+        .accordion-row.active .accordion-num { color: var(--accent-blue); }
+        .accordion-row.active .accordion-title-en { transform: translateX(8px); }
+        .accordion-row.active .accordion-title-jp { color: #111; }
+
+        @media (hover: hover) {
+            .accordion-row:hover .accordion-num { color: var(--accent-blue); }
+            .accordion-row:hover .accordion-title-en { transform: translateX(8px); }
+            .accordion-row:hover .accordion-title-jp { color: #111; }
+        }
+
+        .accordion-details {
+            max-height: 0; opacity: 0; overflow: hidden;
+            transition: max-height 0.6s ease, opacity 0.6s ease, margin-top 0.6s ease;
+        }
+        .accordion-row.active .accordion-details { max-height: 520px; opacity: 1; margin-top: 32px; }
+        
+        @media (hover: hover) {
+            .accordion-row:hover .accordion-details { max-height: 520px; opacity: 1; margin-top: 32px; }
+        }
+
+        .accordion-inner-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; padding-left: 100px; align-items: center; }
+        .job-detail-text { display: flex; flex-direction: column; gap: 24px; }
+        .accordion-desc-text { font-size: 15px; color: #555; line-height: 1.8; margin: 0; }
+
+        .accordion-appeal-box h4,
+        .accordion-mission-box h4 {
+            font-size: 12px; font-weight: 700; color: #111; letter-spacing: 0.15em;
+            margin: 0 0 10px 0; text-transform: uppercase; 
+            border-bottom: 2px solid var(--accent-blue);
+            display: inline-block; padding-bottom: 4px;
+        }
+        .accordion-appeal-box p,
+        .accordion-mission-box p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+
+        .accordion-cta-btn {
+            display: inline-flex; align-items: center; text-decoration: none; color: #ffffff;
+            background-color: #111111; padding: 14px 32px; font-size: 12px; font-weight: 700;
+            letter-spacing: 0.1em; align-self: flex-start; transition: all 0.3s ease;
+            position: relative; z-index: 10;
+        }
+        .accordion-cta-btn::after { content: '→'; margin-left: 10px; transition: transform 0.3s; }
+        .accordion-cta-btn:hover { background-color: var(--accent-blue); } 
+        .accordion-cta-btn:hover::after { transform: translateX(5px); }
+
+        /* STUDIO & EC 複数ボタン用のスタイル */
+        .job-multi-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+
+        .job-cinematic-image { width: 100%; height: 260px; overflow: hidden; position: relative; }
+        .job-cinematic-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(70%); transform: scale(1.05); transition: transform 0.8s ease, filter 0.8s ease;
+        }
+        
+        .accordion-row.active .job-cinematic-image img { transform: scale(1); filter: grayscale(0%); }
+        
+        @media (hover: hover) {
+            .accordion-row:hover .job-cinematic-image img { transform: scale(1); filter: grayscale(0%); }
+        }
+
+        .mobile-job-image { display: none; }
+
+        /* =========================================
+           6. カルチャーセクション
+           ========================================= */
+        .culture { background-color: #ffffff; padding-bottom: 120px; border-top: 1px solid #f0f0f0; }
+        .culture.container { padding-top: 120px; }
+        .culture-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 120px; gap: 6%; }
+        .culture-row.reverse { flex-direction: row-reverse; }
+        .culture-row:last-child { margin-bottom: 0; }
+        .culture-text { width: 38%; }
+        .culture-title { font-family: 'Bodoni Moda', serif; font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 24px; color: #111111; letter-spacing: 0.05em; line-height: 1.2; }
+        .culture-desc { font-size: 16px; color: #555555; line-height: 1.8; margin: 0; }
+        
+        .culture-images { width: 56%; display: grid; gap: 20px; }
+        .culture-images.grid-2 { grid-template-columns: 1fr 1fr; height: 400px; }
+        .culture-images.grid-3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; height: 500px; }
+        .culture-images.grid-3 .img-main { grid-column: 1 / 2; grid-row: 1 / 3; }
+        .culture-img-wrapper { width: 100%; height: 100%; overflow: hidden; background-color: #f5f5f5; }
+        .culture-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 1.5s ease, transform 0.6s ease; }
+        .culture-img-wrapper:hover img { filter: grayscale(0%); transform: scale(1.04); }
+        .culture-img-wrapper img.colorized { filter: grayscale(0%); }
+
+        /* CULTURE「詳しくはこちら」ボタンスタイル */
+        .culture-btn-wrapper { text-align: center; margin-top: 60px; }
+        .culture-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            background-color: #111111; color: #ffffff; text-decoration: none;
+            padding: 16px 48px; font-size: 13.5px; font-weight: 700;
+            letter-spacing: 0.12em; transition: all 0.4s ease; border: 1px solid #111111;
+        }
+        .culture-btn::after { content: '→'; margin-left: 14px; transition: transform 0.4s; }
+        .culture-btn:hover { background-color: transparent; color: #111111; transform: translateY(-2px); }
+        .culture-btn:hover::after { transform: translateX(6px); }
+
+        /* =========================================
+           7. 福利厚生・休日セクション
+           ========================================= */
+        .benefits-section { background-color: #ffffff; padding-bottom: 80px; border-top: 1px solid var(--border-color); }
+        .benefits-header {
+            max-width: 1240px; margin: 0 auto; padding: 80px 8% 0 8%;
+            box-sizing: border-box; display: flex; flex-direction: column; align-items: center;
+        }
+        .benefits-grid {
+            max-width: 1240px; margin: 40px auto 0 auto; padding: 0 8%;
+            box-sizing: border-box; display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+        }
+        .benefits-block { background-color: #ffffff; border-top: 2px solid #111111; padding: 24px 0 0 0; box-sizing: border-box; }
+        .benefits-block h3 {
+            font-size: 22px; font-weight: 900; color: #111; margin: 0 0 24px 0;
+            letter-spacing: 0.05em; font-family: 'Bodoni Moda', 'Noto Sans JP', serif;
+        }
+        .benefits-list { list-style: none; padding: 0; margin: 0 0 24px 0; }
+        .benefits-list li {
+            font-size: 15px; color: #333; padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+            position: relative; padding-left: 20px; line-height: 1.6; letter-spacing: 0.05em;
+        }
+        .benefits-list li:last-child { border-bottom: none; }
+        .benefits-list li::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 8px; height: 1px; background-color: #111111;
+        }
+        .benefits-list li a { color: var(--accent-blue); text-decoration: none; transition: opacity 0.3s; font-weight: bold; }
+        .benefits-list li a:hover { opacity: 0.7; text-decoration: underline; }
+        .benefits-note { font-size: 12px; color: #777; line-height: 1.8; margin: 0; }
+
+        /* =========================================
+           8. オフィス紹介セクション
+           ========================================= */
+        .office-section { background-color: #ffffff; padding-bottom: 100px; border-top: 1px solid var(--border-color); overflow: hidden; }
+        .office-header { max-width: 1240px; margin: 0 auto; padding: 120px 8% 60px 8%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
+        .office-carousel {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 40px;
+            padding: 0 max(8%, calc(50vw - 500px)); scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 40px;
+        }
+        .office-carousel::-webkit-scrollbar { display: none; }
+        
+        .office-slide {
+            flex: 0 0 85vw; max-width: 1000px; scroll-snap-align: center; display: flex;
+            background-color: #ffffff; border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03); transition: box-shadow 0.3s ease; height: auto;
+        }
+        .office-slide:hover { box-shadow: 0 25px 50px rgba(0,0,0,0.08); }
+        
+        .office-slide-img { width: 55%; height: 500px; overflow: hidden; background-color: #f5f5f5; }
+        .office-slide-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 1.5s ease, transform 0.6s ease; }
+        .office-slide-img:hover img { filter: grayscale(0%); transform: scale(1.03); }
+        .office-slide-img img.colorized { filter: grayscale(0%); }
+        
+        .office-slide-info { width: 45%; padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .office-slide-info h3 { font-family: 'Bodoni Moda', serif; font-size: 32px; font-weight: 900; margin: 0 0 16px 0; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 8px; align-self: flex-start; letter-spacing: 0.05em; color: #111; }
+        .office-slide-info h4 { font-size: 15px; font-weight: 700; margin: 0 0 20px 0; color: #111; line-height: 1.6; }
+        .office-slide-info p { font-size: 14.5px; color: #555; line-height: 1.8; margin: 0 0 32px 0; flex-grow: 1; }
+        .office-access { margin-top: auto; padding-top: 24px; border-top: 1px solid #f0f0f0; }
+        .office-access p { font-size: 12.5px; color: #777; line-height: 1.6; margin: 0; font-feature-settings: "palt"; }
+        .office-btn-wrapper { text-align: left; margin-top: 16px; }
+        .office-btn { display: inline-flex; align-items: center; justify-content: center; background-color: #111111; color: #ffffff; text-decoration: none; padding: 16px 48px; font-size: 13.5px; font-weight: 700; letter-spacing: 0.12em; transition: all 0.4s ease; }
+        .office-btn::after { content: '→'; margin-left: 14px; transition: transform 0.4s; }
+        .office-btn:hover { background-color: var(--accent-blue); transform: translateY(-2px); }
+        .office-btn:hover::after { transform: translateX(6px); }
+
+        /* =========================================
+           9. CONTACT & FOOTER
+           ========================================= */
+        .contact-section { background-color: #111111; padding: 80px 0 40px 0; text-align: center; position: relative; }
+        .contact-container { max-width: 1240px; margin: 0 auto; padding: 0 8%; box-sizing: border-box; }
+        .contact-card-box { border: 1px solid rgba(255, 255, 255, 0.1); padding: 80px 60px; }
+        .contact-section .contact-tag-eng { font-family: 'Bodoni Moda', serif; font-size: clamp(36px, 6vw, 54px); font-weight: 900; letter-spacing: 0.25em; color: #ffffff; text-transform: uppercase; margin: 0 0 8px 0; line-height: 1; text-indent: 0.25em; }
+        .contact-section .contact-tag-jp { font-size: 11px; font-weight: 700; color: #888888; letter-spacing: 0.3em; margin-bottom: 24px; text-indent: 0.3em; display: flex; flex-direction: column; align-items: center; }
+        .contact-section .contact-tag-jp::after { content: ''; display: block; width: 24px; height: 2px; background-color: var(--accent-blue); margin-top: 16px; }
+        .contact-desc { font-size: 15px; color: #bbbbbb; line-height: 1.8; margin: 0 0 40px 0; letter-spacing: 0.06em; }
+        .contact-btn { display: inline-flex; align-items: center; justify-content: center; background-color: #ffffff; color: #111111; text-decoration: none; padding: 18px 56px; font-size: 14.5px; font-weight: 700; letter-spacing: 0.12em; transition: all 0.4s ease; border: 1px solid transparent; }
+        .contact-btn::after { content: '→'; margin-left: 14px; transition: transform 0.4s; }
+        .contact-btn:hover { background-color: transparent; color: #ffffff; border-color: #ffffff; transform: translateY(-2px); }
+        .contact-btn:hover::after { transform: translateX(6px); }
+        
+        .site-footer { padding-top: 40px; display: flex; justify-content: center; align-items: center; }
+        .site-footer p { font-size: 11px; color: #555555; margin: 0; letter-spacing: 0.08em; }
+        
+        .footer-scsk-logo { 
+            position: absolute; 
+            bottom: 24px; 
+            right: 32px; 
+            width: clamp(100px, 12vw, 140px);
+            opacity: 0.8; 
+            transition: opacity 0.3s; 
+            display: block;
+        }
+        .footer-scsk-logo:hover { opacity: 1; }
+        .footer-scsk-logo img { width: 100%; height: auto; display: block; }
+
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           10. スマホ対応
+           ========================================= */
+        @media (max-width: 992px) {
+            .accordion-inner-grid { grid-template-columns: 1fr; gap: 32px; padding-left: 0; }
+            .culture-row, .culture-row.reverse { flex-direction: column; gap: 40px; margin-bottom: 80px; }
+            .culture-text, .culture-images { width: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 60px 5%; }
+            .pc-only { display: none; }
+            .hero { flex-direction: column; justify-content: center; align-items: center; padding: 40px 8%; text-align: center; }
+            .hero-content { max-width: 100%; align-items: center; text-align: center; }
+            .hero-logo { width: 120px; align-items: center; }
+            .hero-tagline { font-size: clamp(24px, 6vw, 36px); }
+            .hero-keyline { border-left: none; border-top: 1px solid #111; padding-left: 0; padding-top: 16px; margin-top: 20px; }
+            
+            .main-nav { padding: 15px 0; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+            .main-nav::-webkit-scrollbar { display: none; }
+            .nav-list { gap: 20px; flex-wrap: nowrap; justify-content: flex-start; padding: 0 20px; }
+            .nav-list a { font-size: 12px; }
+            
+            .business-concept { font-size: clamp(16px, 5vw, 24px) !important; margin-bottom: 24px; white-space: normal; }
+            .story-row, .story-row:nth-child(even) { flex-direction: column; gap: 24px; margin-bottom: 50px; }
+            .story-row:last-child { margin-bottom: 0; }
+            .story-text, .story-image-wrapper { max-width: 100%; width: 100%; flex: none; }
+            .story-image-wrapper { height: 200px; order: -1; }
+            
+            .jobs-section { padding-top: 60px; padding-bottom: 0; }
+            .accordion-row { padding: 32px 5%; }
+            .accordion-row.active { padding: 32px 5%; }
+            .accordion-headline-wrap { flex-wrap: wrap; }
+            .accordion-num { font-size: 24px; width: 40px; margin-right: 16px; }
+            .accordion-title-en { font-size: 22px; }
+            .accordion-title-jp { width: 100%; margin-left: 56px; margin-top: 8px; font-size: 13px; }
+            .accordion-inner-grid { padding-left: 0; }
+            .job-cinematic-image { display: none; } 
+            
+            /* スマホ画像のアコーディオン開閉に応じたカラー化制御（アコーディオンが開いたら即カラー化・遅延なし） */
+            .mobile-job-image { display: block; width: 100%; height: 180px; overflow: hidden; margin-top: 16px; }
+            .mobile-job-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 0.3s ease; }
+            .accordion-row.active .mobile-job-image img { filter: grayscale(0%); }
+            
+            .culture.container { padding-top: 60px; }
+            .culture-images.grid-2 { height: 200px; }
+            .culture-images.grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; height: auto; }
+            .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 200px; }
+            .culture-images.grid-3 .img-sub { height: 140px; }
+            .culture-btn { width: 100%; padding: 12px 0; max-width: 280px; }
+
+            .benefits-header { padding: 60px 5% 0 5%; }
+            .benefits-grid { grid-template-columns: 1fr; gap: 40px; padding: 0 5%; margin-top: 30px; }
+            .benefits-block { padding: 20px 0 0 0; }
+
+            .office-header { padding: 60px 5% 40px 5%; }
+            .office-carousel { padding: 0 5%; gap: 20px; }
+            .office-slide { flex: 0 0 90vw; flex-direction: column; }
+            .office-slide-img { width: 100%; height: 280px; }
+            .office-slide-img img { filter: grayscale(0%); }
+            .office-slide-info { width: 100%; padding: 32px 24px; }
+            .office-slide-info h3 { font-size: 24px; margin-bottom: 12px; }
+            .office-slide-info h4 { font-size: 14px; margin-bottom: 16px; }
+            .office-slide-info p { font-size: 13.5px; margin-bottom: 24px; }
+            
+            .contact-section { padding: 50px 0 30px 0; }
+            .contact-card-box { padding: 40px 24px; }
+            .contact-section .contact-tag-eng { font-size: 32px; }
+            .contact-btn { width: 100%; padding: 12px 0; max-width: 260px; }
+            
+            .site-footer { padding-top: 30px; }
+            .footer-scsk-logo { width: 90px; bottom: 16px; right: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero" id="top">
+        <div class="slider-wrapper">
+            <!-- 外部サーバーを読まず、直接ローカル画像を読み込ませることでチラつきを100%防ぎます -->
+            <div class="bg-slide" style="background-image: url('images/hero1.jpg');"></div>
+            <div class="bg-slide" style="background-image: url('images/hero2.jpg');"></div>
+            <div class="bg-slide" style="background-image: url('images/hero3.jpg');"></div>
+            <div class="bg-slide" style="background-image: url('images/hero4.jpg');"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="images/透過.png" alt="COMPANY LOGO" onerror="this.style.display='none'">
+                <div class="hero-logo-sub">RECRUITMENT</div>
+            </div>
+            <div class="hero-title">
+                <h1 class="hero-tagline">ECビジネスの全てを、<br>一つのチームで。</h1>
+                <p class="hero-keyline">大企業の「スケール」と<br>ベンチャー級の「裁量」</p>
+            </div>
+        </div>
+    </section>
+
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="#business">BUSINESS</a></li>
+            <li><a href="#jobs">JOBS</a></li>
+            <li><a href="#culture">CULTURE</a></li>
+            <li><a href="#benefits">BENEFITS</a></li>
+            <li><a href="#office">OFFICES</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSe3ourzAaRgRIV6fMVq2dziMm5qKey4Iell5d3bjStALeWT5A/viewform" target="_blank" rel="noopener noreferrer">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <section id="business" class="business container">
+        <div class="section-tag">BUSINESS</div>
+        <h2 class="business-concept">一社完結。だからどこよりも速く、美しい。</h2>
+        <p class="business-lead">
+            ダイアモンドヘッドはファッションアパレルを中心に、<br class="pc-only">
+            プロスポーツチームや様々な業界の小売まで<br class="pc-only">
+            幅広くECフルサービスを提供しています。
+        </p>
+
+        <div class="story-row">
+            <div class="story-text">
+                <div class="story-label">SCALE</div>
+                <h3 class="story-title">企画から販売を完結させる<br>「スケール」</h3>
+                <p class="story-body">
+                    国内外の有名ブランドのECを裏側から支えています。自分の関わったプロダクトが、毎日何十万人ものユーザーの手に渡るダイナミズムを実感できます。<br>
+                    「システム開発」「Webデザイン」「Webマーケティング」「写真撮影」「倉庫運営」「カスタマーサポート」を一貫して行っているのが特徴です。
+                </p>
+            </div>
+            <div class="story-image-wrapper">
+                <!-- 直接ローカル背景画像を指定 -->
+                <div class="story-image" style="background-image: url('images/scale.jpg');"></div>
+            </div>
+        </div>
+
+        <div class="story-row">
+            <div class="story-text">
+                <div class="story-label">DISCRETION</div>
+                <h3 class="story-title">自分の意志で未来を動かす<br>「裁量」</h3>
+                <p class="story-body">
+                    年次に関係なく良いアイデアは採用され、若手が中心となってプロジェクトを動かしていくチャンスが豊富にあります。<br>
+                    今でもベンチャー気質が引き継がれており、風通しが良く積極的に挑戦できる社風が色濃く残っています。手厚い研修・サポート体制により、成長を常に意識した組織体制を強化し続けています。
+                </p>
+            </div>
+            <div class="story-image-wrapper">
+                <!-- 直接ローカル背景画像を指定 -->
+                <div class="story-image" style="background-image: url('images/discretion.jpeg');"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="jobs" class="jobs-section">
+        <div class="container" style="padding-bottom: 40px;">
+            <div class="section-tag">JOB OPENINGS</div>
+            <h2 class="jobs-title">未来を創る、4つのコアポジション</h2>
+        </div>
+
+        <div class="jobs-full-container">
+            <div class="jobs-interactive-accordion" id="jobsAccordion">
+                
+                <!-- 01 ENGINEER -->
+                <div class="accordion-row" data-job-index="0">
+                    <div class="accordion-headline-wrap">
+                        <span class="accordion-num">01</span>
+                        <h3 class="accordion-title-en">ENGINEER</h3>
+                        <span class="accordion-title-jp">ITエンジニア</span>
+                    </div>
+                    <div class="accordion-details">
+                        <div class="accordion-inner-grid">
+                            <div class="job-detail-text">
+                                <div class="accordion-mission-box">
+                                    <h4>MISSION</h4>
+                                    <p class="accordion-desc-text">自社開発企業のエンジニアとして活躍します。ECプラットフォームの設計・開発から、フロントエンド、インフラの構築まで幅広くお任せします。</p>
+                                </div>
+                                <div class="accordion-appeal-box">
+                                    <h4>APPEAL</h4>
+                                    <p>決められた仕様通りにコードを書くのではなく、最適な技術選定から実装まで、主体的に開発をリードできる楽しさがあります。</p>
+                                </div>
+                                <div class="mobile-job-image">
+                                    <img src="images/job_engineer.jpg" alt="ITエンジニア">
+                                </div>
+                                <a href="https://eclectic-vacherin-a4783b.netlify.app/" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">採用情報を見る</a>
+                            </div>
+                            <div class="job-cinematic-image">
+                                <img src="images/job_engineer.jpg" alt="ITエンジニア">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 02 DESIGN -->
+                <div class="accordion-row" data-job-index="1">
+                    <div class="accordion-headline-wrap">
+                        <span class="accordion-num">02</span>
+                        <h3 class="accordion-title-en">DESIGN</h3>
+                        <span class="accordion-title-jp">WEBデザイナー・コーダー・ディレクター</span>
+                    </div>
+                    <div class="accordion-details">
+                        <div class="accordion-inner-grid">
+                            <div class="job-detail-text">
+                                <div class="accordion-mission-box">
+                                    <h4>MISSION</h4>
+                                    <p class="accordion-desc-text">オンラインストアのバナーや特集ページの制作、サイト更新、施策を円滑に進めるための進行管理といった日々の運用を主軸に、UI/UXデザインやデータ分析に基づく一歩踏み込んだ改善提案まで多岐に渡ります。</p>
+                                </div>
+                                <div class="accordion-appeal-box">
+                                    <h4>APPEAL</h4>
+                                    <p>WEBデザイン, ECビジネス、ECシステム、それぞれの側面から様々な知識を身に着けた「ECデザイナー」を目指して業務を習得していきます。様々な研修や育成制度を用意しています。</p>
+                                </div>
+                                <div class="mobile-job-image">
+                                    <img src="images/job_design.jpg" alt="WEBデザイナー">
+                                </div>
+                                <a href="https://design.diamondhead.info/" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">採用情報を見る</a>
+                            </div>
+                            <div class="job-cinematic-image">
+                                <img src="images/job_design.jpg" alt="WEBデザイナー">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 03 MARKETING -->
+                <div class="accordion-row" data-job-index="2">
+                    <div class="accordion-headline-wrap">
+                        <span class="accordion-num">03</span>
+                        <h3 class="accordion-title-en">MARKETING</h3>
+                        <span class="accordion-title-jp">WEBマーケター・ECコンサルタント</span>
+                    </div>
+                    <div class="accordion-details">
+                        <div class="accordion-inner-grid">
+                            <div class="job-detail-text">
+                                <div class="accordion-mission-box">
+                                    <h4>MISSION</h4>
+                                    <p class="accordion-desc-text">有名ブランドや優良クライアントと直接向き合い、ECサイトの売上・利益向上に直結するWeb広告の実務を行います。</p>
+                                </div>
+                                <div class="accordion-appeal-box">
+                                    <h4>APPEAL</h4>
+                                    <p>実データに基づいた高度な仮説・検証を行い、一過性でない本質的なマーケティングスキルを飛躍的に向上させられます。</p>
+                                </div>
+                                <div class="mobile-job-image">
+                                    <img src="images/job_marketing.jpg" alt="WEBマーケター">
+                                </div>
+                                <a href="https://marketing.diamondhead.info/" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">採用情報を見る</a>
+                            </div>
+                            <div class="job-cinematic-image">
+                                <img src="images/job_marketing.jpg" alt="WEBマーケター">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 04 STUDIO & EC -->
+                <div class="accordion-row" data-job-index="3">
+                    <div class="accordion-headline-wrap">
+                        <span class="accordion-num">04</span>
+                        <h3 class="accordion-title-en">STUDIO & EC</h3>
+                        <span class="accordion-title-jp">スタジオ＆ECオペレーション</span>
+                    </div>
+                    <div class="accordion-details">
+                        <div class="accordion-inner-grid">
+                            <div class="job-detail-text">
+                                <div class="accordion-mission-box">
+                                    <h4>MISSION</h4>
+                                    <p class="accordion-desc-text">最先端の自社大型フォトスタジオを舞台に、商品撮影からEC在庫管理、最速で顧客に届ける出荷オペレーションまでを担います。</p>
+                                </div>
+                                <div class="accordion-appeal-box">
+                                    <h4>APPEAL</h4>
+                                    <p>自分の手がけた仕事が売上に直結するスピード感และ最高のチームワークが魅力です。</p>
+                                </div>
+                                <div class="mobile-job-image">
+                                    <img src="images/job_studio.jpg" alt="スタジオ＆ECオペレーション">
+                                </div>
+                                <div class="job-multi-btns">
+                                    <a href="https://recruit.jobcan.jp/diamondhead/list?category_id=14117" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">カメラマン</a>
+                                    <a href="https://recruit.jobcan.jp/diamondhead/list?category_id=17452" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">レタッチャー</a>
+                                    <a href="https://recruit.jobcan.jp/diamondhead/list?category_id=14110" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">スタジオ撮影進行</a>
+                                    <a href="https://recruit.jobcan.jp/diamondhead/list?category_id=13774" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">ECサイト運営</a>
+                                    <a href="https://recruit.jobcan.jp/diamondhead/list?category_id=17697" target="_blank" rel="noopener noreferrer" class="accordion-cta-btn">オペレーション</a>
+                                </div>
+                            </div>
+                            <div class="job-cinematic-image">
+                                <img src="images/job_studio.jpg" alt="スタジオ＆ECオペレーション">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="culture" class="culture container">
+        <div class="section-tag">CULTURE</div>
+        <h2 class="business-concept" style="margin-bottom: 30px; white-space: normal;">遊びも本気。フラットな関係が、<br>最高のチームを創る。</h2>
+        <p class="business-lead" style="margin-bottom: 80px;">
+            職種や年次の壁を越えたコミュニケーションを何よりも大切にしています。<br class="pc-only">
+            定期的な社内イベントやプロスポーツチームのスポンサー活動を通じて、<br class="pc-only">
+            お互いを深く知り、リスペクトし合えるフラットな関係性を築いています。
+        </p>
+
+        <div class="culture-row">
+            <div class="culture-text">
+                <h3 class="culture-title">01. SPONSORSHIP</h3>
+                <p class="culture-desc">
+                    「北海道コンサドーレ札幌」と「レバンガ北海道」のオフィシャルトップパートナーとして熱く支援しています。<br>
+                    社員やそのご家族向けには、チケットの配布や社内でのパブリックビューイングなども実施しています。
+                </p>
+            </div>
+            <div class="culture-images grid-2">
+                <div class="culture-img-wrapper">
+                    <img src="images/culture_soccer.jpg" alt="サッカー">
+                </div>
+                <div class="culture-img-wrapper">
+                    <img src="images/culture_basket.jpg" alt="バスケ">
+                </div>
+            </div>
+        </div>
+
+        <div class="culture-row reverse">
+            <div class="culture-text">
+                <h3 class="culture-title">02. EVENTS</h3>
+                <p class="culture-desc">
+                    爽快な汗を流すマラソン大会, 秋の本格的なハロウィンパーティー, 週末の白熱したフットサルなど、<br class="pc-only">1年を通して様々な社内イベントが活発に行われています。
+                </p>
+            </div>
+            <div class="culture-images grid-3">
+                <div class="culture-img-wrapper img-main">
+                    <img src="images/culture_futsal.jpeg" alt="フットサル">
+                </div>
+                <div class="culture-img-wrapper img-sub">
+                    <img src="images/culture_halloween.jpg" alt="ハロウィン">
+                </div>
+                <div class="culture-img-wrapper img-sub">
+                    <img src="images/culture_marason.jpg" alt="マラソン">
+                </div>
+            </div>
+        </div>
+
+        <div class="culture-btn-wrapper">
+            <a href="https://csr.diamondhead.jp/?_gl=1*i8jglq*_gcl_au*MTYyNDY5OTA2Ni4xNzgwOTk0ODM2" target="_blank" rel="noopener noreferrer" class="culture-btn">カルチャー・CSR活動について詳しく見る</a>
+        </div>
+    </section>
+
+    <section id="benefits" class="benefits-section">
+        <div class="benefits-header">
+            <div class="section-tag">BENEFITS</div>
+            <h2 class="business-concept" style="margin-bottom: 0;">福利厚生・休日</h2>
+        </div>
+        
+        <div class="benefits-grid">
+            <div class="benefits-block">
+                <h3>福利厚生</h3>
+                <ul class="benefits-list">
+                    <li>服装髪型自由 <a href="https://job.mynavi.jp/27/pc/corpinfo/displayPremium/index?corpId=112080&optNo=2168" target="_blank" rel="noopener noreferrer" style="font-size: 13px; margin-left: 8px; font-weight: normal;">▶ 自由な服装で自分らしく働く！</a></li>
+                    <li>社会保険完備</li>
+                    <li>定期健康診断</li>
+                    <li>通勤費全額支給</li>
+                    <li>慶弔見舞金支給（適用条件あり）</li>
+                    <li>退職金制度（DC/DB）</li>
+                    <li>積立貯蓄</li>
+                    <li>SCSKグループ保険</li>
+                    <li>誕生日祝い金制度</li>
+                    <li>資格取得補助制度</li>
+                    <li><a href="https://www.ewel.co.jp/recruit/workplace/welbox.html" target="_blank" rel="noopener noreferrer">WELBOX</a></li>
+                </ul>
+                <p class="benefits-note">※福利厚生の内容は、雇用条件・募集職種・配属拠点により異なる場合がございます。詳細は各求人ページの募集要項をご確認ください。</p>
+            </div>
+
+            <div class="benefits-block">
+                <h3>休日・休暇</h3>
+                <ul class="benefits-list">
+                    <li>完全週休2日制 （土・日曜日）</li>
+                    <li>国民の祝日</li>
+                    <li>年次有給休暇（入社3ヶ月後付与） <span style="font-size: 13px; margin-left: 8px; color: var(--accent-blue); font-weight: bold;">平均取得日数 10.1日</span></li>
+                    <li>年末年始休暇</li>
+                    <li>結婚休暇</li>
+                    <li>出産休暇</li>
+                    <li>忌引休暇</li>
+                    <li>産前産後休暇</li>
+                    <li>育児休暇 <span style="font-size: 13px; margin-left: 8px; color: var(--accent-blue); font-weight: bold;">女性の取得率 100％！</span></li>
+                    <li>子の看護休暇 <span style="font-size: 13px; margin-left: 8px; color: var(--accent-blue); font-weight: bold;">入卒園・入学式に参加する場合も利用可能</span></li>
+                    <li>両立支援休暇 <span style="font-size: 13px; margin-left: 8px; color: var(--accent-blue); font-weight: bold;">家族の看護やお子様の学校行事に利用可能</span></li>
+                    <li>その他会社指定の休暇</li>
+                </ul>
+                <p class="benefits-note">※休日・休暇の内容は、雇用条件・募集職種・配属拠点により異なる場合がございます。詳細は各求人ページの募集要項をご確認ください。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="office" class="office-section">
+        <div class="office-header">
+            <div class="section-tag">OFFICES</div>
+            <h2 class="business-concept" style="margin-bottom: 0;">拠点紹介</h2>
+        </div>
+
+        <div class="office-carousel">
+            <!-- 1. STUDIO -->
+            <div class="office-slide">
+                <div class="office-slide-img">
+                    <img src="images/studio.jpg" alt="スタジオ">
+                </div>
+                <div class="office-slide-info">
+                    <h3>STUDIO</h3>
+                    <h4>首都圏に9拠点ある日本最大級 of スタジオ。</h4>
+                    <p>ハウススタジオから物流倉庫に併設 of スタジオまで、さまざまなニーズに対応したスタジオ運営をしております。膨大な数の商品数をハイクオリティ＆スピーディーに、撮影からサイト掲載までを日々行うために、自社の管理システムの開発や最新 of 機器を導入＆活用しております。</p>
+                    <div class="office-btn-wrapper"><a href="https://photo.diamondhead.jp/" target="_blank" rel="noopener noreferrer" class="office-btn">拠点を見る</a></div>
+                </div>
+            </div>
+
+            <!-- 2. SAPPORO -->
+            <div class="office-slide">
+                <div class="office-slide-img">
+                    <img src="images/sapporo.jpg" alt="札幌本社">
+                </div>
+                <div class="office-slide-info">
+                    <h3>SAPPORO</h3>
+                    <h4>専門分野に特化したクリエイティブなオフィス</h4>
+                    <p>札幌本社では、システム＆サービス開発・デザイン・マーケティングなどの専門分野に特化した役割を担っています。</p>
+                    <div class="office-access">
+                        <p>〒060-0001<br>北海道札幌市中央区北1条西1丁目6 さっぽろ創世スクエア14F<br>TEL: 011-222-0535 | FAX: 050-3588-1047</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. TOKYO -->
+            <div class="office-slide">
+                <div class="office-slide-img">
+                    <img src="images/tokyo.jpg" alt="東京本社">
+                </div>
+                <div class="office-slide-info">
+                    <h3>TOKYO</h3>
+                    <h4>ミーティングフロアと業務フロアが分かれたオフィス</h4>
+                    <p>東京本社では、クライアントと顔を合わせて打ち合わせができる職種を多く配置しています。気持ちよく来社していただけるスペースになっています。</p>
+                    <div class="office-access">
+                        <p>〒108-0073<br>東京都港区三田2-7-13 TDS三田ビル6・7F<br>TEL: 03-5876-4160</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <div class="contact-card-box">
+                <h3 class="contact-tag-eng">CONTACT</h3>
+                <div class="contact-tag-jp">お問い合わせ</div>
+                <p class="contact-desc">
+                    採用に関するご質問・ご相談は、下記フォームよりお気軽にご連絡ください。<br class="pc-only">
+                    内容確認後、採用担当者より折り返しご連絡いたします。
+                </p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe3ourzAaRgRIV6fMVq2dziMm5qKey4Iell5d3bjStALeWT5A/viewform" target="_blank" rel="noopener noreferrer" class="contact-btn">お問い合わせはこちら</a>
+            </div>
+            
+            <footer class="site-footer">
+                <p>&copy; 2026 Diamondhead Co.,Ltd. All Rights Reserved.</p>
+            </footer>
+        </div>
+        
+        <a href="https://www.scsk.jp/" target="_blank" rel="noopener noreferrer" class="footer-scsk-logo">
+            <img src="images/scsk_white.png" alt="SCSK Group">
+        </a>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // =========================================
+            // A. 背景 of JS 制御スライダー (フェード遅れ & 白飛びの完全解決)
+            // =========================================
+            const slides = document.querySelectorAll('.bg-slide');
+            if (slides.length > 0) {
+                let currentSlide = 0;
+                slides[currentSlide].classList.add('active'); // 1枚目をアクティブ化
+
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 5000); // 5秒ごとにスムーズに切り替え
+            }
+
+            // =========================================
+            // B. アコーディオンの開閉制御 (元のPCホバー / スマホクリック仕様)
+            // =========================================
+            const accordionRows = document.querySelectorAll(".accordion-row");
+
+            accordionRows.forEach(row => {
+                row.addEventListener("click", function(e) {
+                    if (e.target.closest('a')) return; // リンククリック時は開閉させない
+                    
+                    // スマホサイズ以下の時のみ、クリックで開閉（トグル）させる
+                    if (window.innerWidth <= 768) {
+                        if (row.classList.contains("active")) {
+                            row.classList.remove("active");
+                        } else {
+                            // 他のアコーディオンを閉じて、クリックしたものを開く
+                            accordionRows.forEach(r => r.classList.remove("active"));
+                            row.classList.add("active");
+                        }
+                    }
+                });
+            });
+
+            // =========================================
+            // C. ヘッダーのスクロール制御
+            // =========================================
+            const nav = document.querySelector('.main-nav');
+            const navPlaceholder = document.createElement('div');
+            navPlaceholder.className = 'nav-placeholder';
+            nav.parentNode.insertBefore(navPlaceholder, nav);
+
+            let lastScrollY = window.scrollY;
+            let navOffsetTop = nav.offsetTop;
+
+            window.addEventListener('resize', () => {
+                if (!nav.classList.contains('is-fixed')) {
+                    navOffsetTop = nav.offsetTop;
+                }
+            });
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                if (currentScrollY > navOffsetTop) {
+                    if (!nav.classList.contains('is-fixed')) {
+                        nav.classList.add('is-fixed');
+                        navPlaceholder.style.display = 'block';
+                        navPlaceholder.style.height = nav.offsetHeight + 'px';
+                    }
+                    if (currentScrollY > lastScrollY && currentScrollY > navOffsetTop + 20) {
+                        nav.classList.add('is-hidden');
+                    } else if (currentScrollY < lastScrollY) {
+                        nav.classList.remove('is-hidden');
+                    }
+                } else {
+                    nav.classList.remove('is-fixed');
+                    nav.classList.remove('is-hidden');
+                    navPlaceholder.style.display = 'none';
+                }
+                lastScrollY = currentScrollY;
+            });
+            
+            // スマホ時のナビゲーション初期横スクロールアピール
+            if (window.innerWidth <= 768) {
+                const navElement = document.querySelector('.main-nav');
+                setTimeout(() => {
+                    navElement.scrollLeft = 20; 
+                }, 500);
+            }
+
+            // =========================================
+            // D. スクロールでモノクロからカラーに変化させる IntersectionObserver
+            // =========================================
+            const colorizeOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.3 // 画像が30%表示された時点で発火
+            };
+
+            const colorizeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const target = entry.target;
+                    
+                    if (entry.isIntersecting) {
+                        // タイマーの競合バグを解決
+                        if (target._colorizeTimer) {
+                            clearTimeout(target._colorizeTimer);
+                        }
+                        
+                        // 800ms(0.8秒)後にカラーライズクラスを適用
+                        target._colorizeTimer = setTimeout(() => {
+                            target.classList.add('colorized');
+                        }, 800);
+                        
+                    } else {
+                        // 画面から出た場合はタイマーをリセットしモノクロに戻す
+                        if (target._colorizeTimer) {
+                            clearTimeout(target._colorizeTimer);
+                            target._colorizeTimer = null;
+                        }
+                        target.classList.remove('colorized');
+                    }
+                });
+            }, colorizeOptions);
+
+            // モニタリング対象からアコーディオン内画像を完全に除外
+            const colorizeTargets = document.querySelectorAll('.story-image, .culture-img-wrapper img, .office-slide-img img');
+            colorizeTargets.forEach(img => {
+                colorizeObserver.observe(img);
+            });
+
+            // =========================================
+            // E. 拠点紹介（OFFICES）のデフォルト表示位置をSAPPORO（真ん中・2番目）にフォーカス
+            // =========================================
+            const officeCarousel = document.querySelector('.office-carousel');
+            const officeSlides = document.querySelectorAll('.office-carousel .office-slide');
+            if (officeCarousel && officeSlides.length > 1) {
+                const sapporoSlide = officeSlides[1]; // SAPPORO（2番目）のスライド要素
+                
+                const adjustCarouselPosition = () => {
+                    // カルーセルとスライドの幅を計算し、SAPPOROが真ん中にピタッと収まるスクロール位置を決定
+                    const carouselHalf = officeCarousel.clientWidth / 2;
+                    const slideHalf = sapporoSlide.clientWidth / 2;
+                    const targetScrollLeft = sapporoSlide.offsetLeft - carouselHalf + slideHalf;
+                    
+                    officeCarousel.scrollLeft = targetScrollLeft;
+                };
+
+                // DOM描画およびレイアウトの計算が落ち着くのを少し待ってから初期位置を調整
+                setTimeout(adjustCarouselPosition, 200);
+
+                // ウインドウ幅の変更時にも表示位置を真ん中に調整
+                window.addEventListener('resize', adjustInitialScroll);
+                
+                function adjustInitialScroll() {
+                    if (window.innerWidth > 768) {
+                        // デスクトップ表示時のみセンタリング
+                        const carouselHalfWidth = officeCarousel.clientWidth / 2;
+                        const slideHalfWidth = sapporoSlide.clientWidth / 2;
+                        officeCarousel.scrollLeft = sapporoSlide.offsetLeft - carouselHalfWidth + slideHalfWidth;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
