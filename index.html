@@ -327,13 +327,20 @@
         .culture-img-wrapper:hover img { filter: grayscale(0%); transform: scale(1.04); }
         .culture-img-wrapper img.colorized { filter: grayscale(0%); }
 
-        /* CULTURE「詳しくはこちら」ボタンスタイル */
-        .culture-btn-wrapper { text-align: center; margin-top: 60px; }
+        /* CULTURE「詳しくはこちら」ボタンスタイル (2連並列フレックス対応) */
+        .culture-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
         .culture-btn {
             display: inline-flex; align-items: center; justify-content: center;
             background-color: #111111; color: #ffffff; text-decoration: none;
             padding: 16px 48px; font-size: 13.5px; font-weight: 700;
             letter-spacing: 0.12em; transition: all 0.4s ease; border: 1px solid #111111;
+            box-sizing: border-box;
         }
         .culture-btn::after { content: '→'; margin-left: 14px; transition: transform 0.4s; }
         .culture-btn:hover { background-color: transparent; color: #111111; transform: translateY(-2px); }
@@ -486,6 +493,14 @@
             .culture-images.grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; height: auto; }
             .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 200px; }
             .culture-images.grid-3 .img-sub { height: 140px; }
+
+            /* スマホ時のカルチャー2連ボタンのレスポンシブスタイル */
+            .culture-btn-wrapper {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+                margin-top: 40px;
+            }
             .culture-btn { width: 100%; padding: 12px 0; max-width: 280px; }
 
             .benefits-header { padding: 60px 5% 0 5%; }
@@ -771,8 +786,10 @@
             </div>
         </div>
 
+        <!-- 「スポンサー活動について見る」と「イベント活動について見る」の2ボタン体制に変更 -->
         <div class="culture-btn-wrapper">
-            <a href="https://csr.diamondhead.jp/?_gl=1*i8jglq*_gcl_au*MTYyNDY5OTA2Ni4xNzgwOTk0ODM2" target="_blank" rel="noopener noreferrer" class="culture-btn">CSR活動について詳しく見る</a>
+            <a href="https://csr.diamondhead.jp/?_gl=1*i8jglq*_gcl_au*MTYyNDY5OTA2Ni4xNzgwOTk0ODM2" target="_blank" rel="noopener noreferrer" class="culture-btn">スポンサー活動について見る</a>
+            <a href="https://club.diamondhead.jp/?_gl=1*i9rb9z*_gcl_au*MTYyNDY5OTA2Ni4xNzgwOTk0ODM2" target="_blank" rel="noopener noreferrer" class="culture-btn">イベント活動について見る</a>
         </div>
     </section>
 
@@ -829,7 +846,7 @@
         </div>
 
         <div class="office-carousel">
-            <!-- 1. STUDIO -->
+            <!-- 1. STUDIO (「of」となっていた箇所を「の」に完全に修正) -->
             <div class="office-slide">
                 <div class="office-slide-img">
                     <img src="images/studio.jpg" alt="スタジオ">
@@ -837,7 +854,7 @@
                 <div class="office-slide-info">
                     <h3>STUDIO</h3>
                     <h4>首都圏に9拠点ある日本最大級のスタジオ。</h4>
-                    <p>ハウススタジオから物流倉庫に併設のスタジオまで、さまざまなニーズに対応したスタジオ運営をしております。膨大な数の商品数をハイクオリティ＆スピーディーに、撮影からサイト掲載までを日々行うために、自社の管理システムの開発や最新の機器を導入＆活用しております。</p>
+                    <p>ハウススタジオから物流倉庫に併設のスタジオまで、さまざまなニーズに対応したスタジオ運営をしております。膨大な数の商品数をハイクオリティ＆スピーディーに, 撮影からサイト掲載までを日々行うために、自社の管理システムの開発や最新の機器を導入＆活用しております。</p>
                     <div class="office-btn-wrapper"><a href="https://photo.diamondhead.jp/" target="_blank" rel="noopener noreferrer" class="office-btn">拠点を見る</a></div>
                 </div>
             </div>
