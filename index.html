@@ -46,7 +46,7 @@
             text-align: center;
         }
 
-        /* GPUレンダリング時（ホバーやフィルター時）の画像ボヤけバグを解消する定義 */
+        /* GPUレンダリング時の画像ボヤけバグを解消する定義 */
         .job-cinematic-image img,
         .mobile-job-image img,
         .story-image,
@@ -81,7 +81,6 @@
             transition: opacity 1.8s ease-in-out, transform 6s ease-out;
         }
 
-        /* アクティブな時にKen Burns(ゆっくり拡大)を適用 */
         .bg-slide.active {
             opacity: 1;
             transform: scale(1.06);
@@ -289,7 +288,6 @@
         .accordion-cta-btn:hover { background-color: var(--accent-blue); } 
         .accordion-cta-btn:hover::after { transform: translateX(5px); }
 
-        /* STUDIO & EC 複数ボタン用のスタイル */
         .job-multi-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 
         .job-cinematic-image { width: 100%; height: 260px; overflow: hidden; position: relative; }
@@ -327,7 +325,6 @@
         .culture-img-wrapper:hover img { filter: grayscale(0%); transform: scale(1.04); }
         .culture-img-wrapper img.colorized { filter: grayscale(0%); }
 
-        /* CULTURE「詳しくはこちら」ボタンスタイル (2連並列フレックス対応) */
         .culture-btn-wrapper {
             display: flex;
             justify-content: center;
@@ -444,28 +441,60 @@
 
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* =========================================
-           10. スマホ対応
-           ========================================= */
         @media (max-width: 992px) {
             .accordion-inner-grid { grid-template-columns: 1fr; gap: 32px; padding-left: 0; }
             .culture-row, .culture-row.reverse { flex-direction: column; gap: 40px; margin-bottom: 80px; }
             .culture-text, .culture-images { width: 100%; }
         }
 
+        /* =========================================
+           10. スマホ対応 (Responsive / メニュー非表示＆ロゴ中央揃え)
+           ========================================= */
         @media (max-width: 768px) {
             .container { padding: 60px 5%; }
             .pc-only { display: none; }
+            
+            /* ヒーロー全体の中央揃え */
             .hero { flex-direction: column; justify-content: center; align-items: center; padding: 40px 8%; text-align: center; }
             .hero-content { max-width: 100%; align-items: center; text-align: center; }
-            .hero-logo { width: 120px; align-items: center; }
-            .hero-tagline { font-size: clamp(24px, 6vw, 36px); }
-            .hero-keyline { border-left: none; border-top: 1px solid #111; padding-left: 0; padding-top: 16px; margin-top: 20px; }
             
-            .main-nav { padding: 15px 0; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-            .main-nav::-webkit-scrollbar { display: none; }
-            .nav-list { gap: 20px; flex-wrap: nowrap; justify-content: flex-start; padding: 0 20px; }
-            .nav-list a { font-size: 12px; }
+            /* --- アイコンロゴと「RECRUITMENT」のズレを綺麗に中央揃えに修正 --- */
+            .hero-logo { 
+                width: 100%; 
+                max-width: 200px;
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+                margin: 0 auto 24px auto; 
+            }
+            .hero-logo img { width: 120px; height: auto; margin: 0 auto; }
+            .hero-logo-sub { 
+                text-align: center;
+                letter-spacing: 0.5em; /* 文字間隔を広げる */
+                text-indent: 0.5em; /* 広げた分のズレを相殺して完全な中央に */
+                margin-top: 12px;
+            }
+            /* ----------------------------------------------------------------- */
+
+            .hero-title { align-items: center; }
+            .hero-tagline { font-size: clamp(24px, 6vw, 36px); text-align: center; }
+            
+            /* 装飾線をスマホ用に上部横線に変更して中央揃え */
+            .hero-keyline { 
+                border-left: none; 
+                border-top: 2px solid var(--accent-blue); 
+                padding-left: 0; 
+                padding-top: 16px; 
+                margin: 20px auto 0 auto; 
+                text-align: center; 
+                display: inline-block; 
+            }
+            
+            /* --- スマホ時：ナビゲーションメニューだけを完全に非表示に --- */
+            .main-nav, .nav-placeholder {
+                display: none !important;
+            }
+            /* ------------------------------------------------------------- */
             
             .business-concept { font-size: clamp(16px, 5vw, 24px) !important; margin-bottom: 24px; white-space: normal; }
             .story-row, .story-row:nth-child(even) { flex-direction: column; gap: 24px; margin-bottom: 50px; }
@@ -481,9 +510,13 @@
             .accordion-title-en { font-size: 22px; }
             .accordion-title-jp { width: 100%; margin-left: 56px; margin-top: 8px; font-size: 13px; }
             .accordion-inner-grid { padding-left: 0; }
+            
+            /* --- スマホ時のアコーディオン最大高さを増やしてボタンの途切れを防止 --- */
+            .accordion-row.active .accordion-details { max-height: 1200px; }
+            /* ---------------------------------------------------------------------- */
+            
             .job-cinematic-image { display: none; } 
             
-            /* スマホ画像のアコーディオン開閉に応じたカラー化制御（アコーディオンが開いたら即カラー化・遅延なし） */
             .mobile-job-image { display: block; width: 100%; height: 180px; overflow: hidden; margin-top: 16px; }
             .mobile-job-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 0.3s ease; }
             .accordion-row.active .mobile-job-image img { filter: grayscale(0%); }
@@ -494,7 +527,6 @@
             .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 200px; }
             .culture-images.grid-3 .img-sub { height: 140px; }
 
-            /* スマホ時のカルチャー2連ボタンのレスポンシブスタイル */
             .culture-btn-wrapper {
                 flex-direction: column;
                 align-items: center;
@@ -531,7 +563,6 @@
 
     <section class="hero" id="top">
         <div class="slider-wrapper">
-            <!-- 外部サーバーを読まず、直接ローカル画像を読み込ませることでチラつきを100%防ぎます -->
             <div class="bg-slide" style="background-image: url('images/hero1.jpg');"></div>
             <div class="bg-slide" style="background-image: url('images/hero2.jpg');"></div>
             <div class="bg-slide" style="background-image: url('images/hero3.jpg');"></div>
@@ -549,6 +580,7 @@
         </div>
     </section>
 
+    <!-- メインナビゲーション -->
     <nav class="main-nav">
         <ul class="nav-list">
             <li><a href="#business">BUSINESS</a></li>
@@ -560,6 +592,7 @@
         </ul>
     </nav>
 
+    <!-- ビジネスセクション -->
     <section id="business" class="business container">
         <div class="section-tag">BUSINESS</div>
         <h2 class="business-concept">一社完結。だからどこよりも速く、美しい。</h2>
@@ -579,7 +612,6 @@
                 </p>
             </div>
             <div class="story-image-wrapper">
-                <!-- 直接ローカル背景画像を指定 -->
                 <div class="story-image" style="background-image: url('images/scale.jpg');"></div>
             </div>
         </div>
@@ -594,12 +626,12 @@
                 </p>
             </div>
             <div class="story-image-wrapper">
-                <!-- 直接ローカル背景画像を指定 -->
                 <div class="story-image" style="background-image: url('images/discretion.jpeg');"></div>
             </div>
         </div>
     </section>
 
+    <!-- ジョブセクション -->
     <section id="jobs" class="jobs-section">
         <div class="container" style="padding-bottom: 40px;">
             <div class="section-tag">JOB OPENINGS</div>
@@ -739,6 +771,7 @@
         </div>
     </section>
 
+    <!-- カルチャーセクション -->
     <section id="culture" class="culture container">
         <div class="section-tag">CULTURE</div>
         <h2 class="business-concept" style="margin-bottom: 30px; white-space: normal;">遊びも本気。フラットな関係が、<br>最高のチームを創る。</h2>
@@ -758,10 +791,10 @@
             </div>
             <div class="culture-images grid-2">
                 <div class="culture-img-wrapper">
-                    <img src="images/culture_soccer.jpg" alt="サッカー">
+                    <img src="images/culture_consa.jpg" alt="サッカー">
                 </div>
                 <div class="culture-img-wrapper">
-                    <img src="images/culture_basket.jpg" alt="バスケ">
+                    <img src="images/culture_levanga.jpg" alt="バスケ">
                 </div>
             </div>
         </div>
@@ -775,7 +808,7 @@
             </div>
             <div class="culture-images grid-3">
                 <div class="culture-img-wrapper img-main">
-                    <img src="images/culture_futsal.jpeg" alt="フットサル">
+                    <img src="images/culture_basket.jpg" alt="バスケットボール">
                 </div>
                 <div class="culture-img-wrapper img-sub">
                     <img src="images/culture_halloween.jpg" alt="ハロウィン">
@@ -786,13 +819,13 @@
             </div>
         </div>
 
-        <!-- 「スポンサー活動について見る」と「イベント活動について見る」の2ボタン体制に変更 -->
         <div class="culture-btn-wrapper">
             <a href="https://csr.diamondhead.jp/?_gl=1*i8jglq*_gcl_au*MTYyNDY5OTA2Ni4xNzgwOTk0ODM2" target="_blank" rel="noopener noreferrer" class="culture-btn">スポンサー活動について見る</a>
             <a href="https://club.diamondhead.jp/?_gl=1*i9rb9z*_gcl_au*MTYyNDY5OTA2Ni4xNzgwOTk0ODM2" target="_blank" rel="noopener noreferrer" class="culture-btn">イベント活動について見る</a>
         </div>
     </section>
 
+    <!-- 福利厚生・休日セクション -->
     <section id="benefits" class="benefits-section">
         <div class="benefits-header">
             <div class="section-tag">BENEFITS</div>
@@ -839,6 +872,7 @@
         </div>
     </section>
 
+    <!-- 拠点紹介（OFFICES） -->
     <section id="office" class="office-section">
         <div class="office-header">
             <div class="section-tag">OFFICES</div>
@@ -846,7 +880,7 @@
         </div>
 
         <div class="office-carousel">
-            <!-- 1. STUDIO (「of」となっていた箇所を「の」に完全に修正) -->
+            <!-- 1. STUDIO -->
             <div class="office-slide">
                 <div class="office-slide-img">
                     <img src="images/studio.jpg" alt="スタジオ">
@@ -854,7 +888,7 @@
                 <div class="office-slide-info">
                     <h3>STUDIO</h3>
                     <h4>首都圏に9拠点ある日本最大級のスタジオ。</h4>
-                    <p>ハウススタジオから物流倉庫に併設のスタジオまで、さまざまなニーズに対応したスタジオ運営をしております。膨大な数の商品数をハイクオリティ＆スピーディーに, 撮影からサイト掲載までを日々行うために、自社の管理システムの開発や最新の機器を導入＆活用しております。</p>
+                    <p>ハウススタジオから物流倉庫に併設 of スタジオまで、さまざまなニーズに対応したスタジオ運営をしております。膨大な数の商品数をハイクオリティ＆スピーディーに, 撮影からサイト掲載までを日々行うために、自社の管理システムの開発や最新の機器を導入＆活用しております。</p>
                     <div class="office-btn-wrapper"><a href="https://photo.diamondhead.jp/" target="_blank" rel="noopener noreferrer" class="office-btn">拠点を見る</a></div>
                 </div>
             </div>
@@ -891,6 +925,7 @@
         </div>
     </section>
 
+    <!-- コンタクト＆フッター -->
     <section id="contact" class="contact-section">
         <div class="contact-container">
             <div class="contact-card-box">
@@ -921,30 +956,28 @@
             const slides = document.querySelectorAll('.bg-slide');
             if (slides.length > 0) {
                 let currentSlide = 0;
-                slides[currentSlide].classList.add('active'); // 1枚目をアクティブ化
+                slides[currentSlide].classList.add('active');
 
                 setInterval(() => {
                     slides[currentSlide].classList.remove('active');
                     currentSlide = (currentSlide + 1) % slides.length;
                     slides[currentSlide].classList.add('active');
-                }, 5000); // 5秒ごとにスムーズに切り替え
+                }, 5000); 
             }
 
             // =========================================
-            // B. アコーディオンの開閉制御 (元のPCホバー / スマホクリック仕様)
+            // B. アコーディオンの開閉制御 (PCホバー / スマホクリック仕様)
             // =========================================
             const accordionRows = document.querySelectorAll(".accordion-row");
 
             accordionRows.forEach(row => {
                 row.addEventListener("click", function(e) {
-                    if (e.target.closest('a')) return; // リンククリック時は開閉させない
+                    if (e.target.closest('a')) return;
                     
-                    // スマホサイズ以下の時のみ、クリックで開閉（トグル）させる
                     if (window.innerWidth <= 768) {
                         if (row.classList.contains("active")) {
                             row.classList.remove("active");
                         } else {
-                            // 他のアコーディオンを閉じて、クリックしたものを開く
                             accordionRows.forEach(r => r.classList.remove("active"));
                             row.classList.add("active");
                         }
@@ -953,12 +986,14 @@
             });
 
             // =========================================
-            // C. ヘッダーのスクロール制御
+            // C. ヘッダーのスクロール制御 (PCのみ動作)
             // =========================================
             const nav = document.querySelector('.main-nav');
-            const navPlaceholder = document.createElement('div');
-            navPlaceholder.className = 'nav-placeholder';
-            nav.parentNode.insertBefore(navPlaceholder, nav);
+            const navPlaceholder = document.querySelector('.nav-placeholder') || document.createElement('div');
+            if (!navPlaceholder.parentNode) {
+                navPlaceholder.className = 'nav-placeholder';
+                nav.parentNode.insertBefore(navPlaceholder, nav);
+            }
 
             let lastScrollY = window.scrollY;
             let navOffsetTop = nav.offsetTop;
@@ -970,6 +1005,8 @@
             });
 
             window.addEventListener('scroll', () => {
+                if (window.innerWidth <= 768) return;
+
                 const currentScrollY = window.scrollY;
                 if (currentScrollY > navOffsetTop) {
                     if (!nav.classList.contains('is-fixed')) {
@@ -989,14 +1026,6 @@
                 }
                 lastScrollY = currentScrollY;
             });
-            
-            // スマホ時のナビゲーション初期横スクロールアピール
-            if (window.innerWidth <= 768) {
-                const navElement = document.querySelector('.main-nav');
-                setTimeout(() => {
-                    navElement.scrollLeft = 20; 
-                }, 500);
-            }
 
             // =========================================
             // D. スクロールでモノクロからカラーに変化させる IntersectionObserver
@@ -1004,7 +1033,7 @@
             const colorizeOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.3 // 画像が30%表示された時点で発火
+                threshold: 0.3 
             };
 
             const colorizeObserver = new IntersectionObserver((entries) => {
@@ -1012,18 +1041,15 @@
                     const target = entry.target;
                     
                     if (entry.isIntersecting) {
-                        // タイマーの競合バグを解決
                         if (target._colorizeTimer) {
                             clearTimeout(target._colorizeTimer);
                         }
                         
-                        // 800ms(0.8秒)後にカラーライズクラスを適用
                         target._colorizeTimer = setTimeout(() => {
                             target.classList.add('colorized');
                         }, 800);
                         
                     } else {
-                        // 画面から出た場合はタイマーをリセットしモノクロに戻す
                         if (target._colorizeTimer) {
                             clearTimeout(target._colorizeTimer);
                             target._colorizeTimer = null;
@@ -1033,22 +1059,20 @@
                 });
             }, colorizeOptions);
 
-            // モニタリング対象からアコーディオン内画像を完全に除外
             const colorizeTargets = document.querySelectorAll('.story-image, .culture-img-wrapper img, .office-slide-img img');
             colorizeTargets.forEach(img => {
                 colorizeObserver.observe(img);
             });
 
             // =========================================
-            // E. 拠点紹介（OFFICES）のデフォルト表示位置をSAPPORO（真ん中・2番目）にフォーカス
+            // E. 拠点紹介（OFFICES）のデフォルト表示位置をSAPPORO（2番目）にフォーカス
             // =========================================
             const officeCarousel = document.querySelector('.office-carousel');
             const officeSlides = document.querySelectorAll('.office-carousel .office-slide');
             if (officeCarousel && officeSlides.length > 1) {
-                const sapporoSlide = officeSlides[1]; // SAPPORO（2番目）のスライド要素
+                const sapporoSlide = officeSlides[1]; 
                 
                 const adjustCarouselPosition = () => {
-                    // カルーセルとスライドの幅を計算し、SAPPOROが真ん中にピタッと収まるスクロール位置を決定
                     const carouselHalf = officeCarousel.clientWidth / 2;
                     const slideHalf = sapporoSlide.clientWidth / 2;
                     const targetScrollLeft = sapporoSlide.offsetLeft - carouselHalf + slideHalf;
@@ -1056,15 +1080,12 @@
                     officeCarousel.scrollLeft = targetScrollLeft;
                 };
 
-                // DOM描画およびレイアウトの計算が落ち着くのを少し待ってから初期位置を調整
                 setTimeout(adjustCarouselPosition, 200);
 
-                // ウインドウ幅の変更時にも表示位置を真ん中に調整
                 window.addEventListener('resize', adjustInitialScroll);
                 
                 function adjustInitialScroll() {
                     if (window.innerWidth > 768) {
-                        // デスクトップ表示時のみセンタリング
                         const carouselHalfWidth = officeCarousel.clientWidth / 2;
                         const slideHalfWidth = sapporoSlide.clientWidth / 2;
                         officeCarousel.scrollLeft = sapporoSlide.offsetLeft - carouselHalfWidth + slideHalfWidth;
