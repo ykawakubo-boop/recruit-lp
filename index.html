@@ -47,6 +47,8 @@
             text-align: center;
         }
 
+        .sp-only { display: none; }
+
         /* GPUレンダリング時の画像ボヤけバグを解消する定義 */
         .job-cinematic-image img,
         .mobile-job-image img,
@@ -463,6 +465,7 @@
         @media (max-width: 768px) {
             .container { padding: 60px 5%; }
             .pc-only { display: none; }
+            .sp-only { display: inline; }
             
             /* ヒーロー全体の中央揃え */
             .hero { flex-direction: column; justify-content: center; align-items: center; padding: 40px 8%; text-align: center; }
@@ -611,7 +614,7 @@
     <!-- ビジネスセクション -->
     <section id="business" class="business container">
         <div class="section-tag">BUSINESS</div>
-        <h2 class="business-concept">一社完結。だからこそ、どこよりも速く美しい。</h2>
+        <h2 class="business-concept">一社完結。だからこそ、<br class="sp-only">どこよりも速く美しい。</h2>
         <p class="business-lead">
             ダイアモンドヘッドはファッションアパレルを中心に、<br class="pc-only">
             プロスポーツチームや様々な業界の小売まで<br class="pc-only">
