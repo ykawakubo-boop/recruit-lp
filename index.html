@@ -23,7 +23,8 @@
             --job-color-4: #222222; 
         }
 
-        html { scroll-behavior: smooth; }
+        /* スクロールバー出現による横揺れ(ガタつき)を防止するため overflow-y: scroll を追加 */
+        html { scroll-behavior: smooth; overflow-y: scroll; }
 
         body, html {
             margin: 0; padding: 0; width: 100%;
@@ -218,14 +219,14 @@
         .accordion-row {
             border-bottom: 1px solid var(--border-color);
             padding: 40px 8%; cursor: pointer;
-            transition: padding 0.5s ease, background-color 0.4s ease;
+            transition: background-color 0.4s ease;
             position: relative; overflow: hidden;
         }
 
-        .accordion-row.active { padding: 50px 8% 40px 8%; background-color: #fafafa; }
+        .accordion-row.active { background-color: #fafafa; }
         
         @media (hover: hover) {
-            .accordion-row:hover { padding: 50px 8% 40px 8%; background-color: #fafafa; }
+            .accordion-row:hover { background-color: #fafafa; }
         }
 
         .accordion-headline-wrap { display: flex; align-items: baseline; justify-content: flex-start; width: 100%; }
@@ -237,7 +238,9 @@
         .accordion-title-en {
             font-family: 'Bodoni Moda', serif; font-size: clamp(24px, 3.5vw, 40px);
             font-weight: 900; text-transform: uppercase; color: #111111; letter-spacing: 0.05em; line-height: 1;
-            transition: transform 0.4s ease;
+            /* テキスト自体のガタつき(震え)を防ぐため transform を廃止し、padding-left で移動させます */
+            padding-left: 0;
+            transition: padding-left 0.4s ease;
         }
         .accordion-title-jp {
             font-size: 15px; font-weight: 700; color: #888; margin-left: 24px;
@@ -245,26 +248,33 @@
         }
 
         .accordion-row.active .accordion-num { color: var(--accent-blue); }
-        .accordion-row.active .accordion-title-en { transform: translateX(8px); }
+        .accordion-row.active .accordion-title-en { padding-left: 12px; } /* translateX(8px) の代わり */
         .accordion-row.active .accordion-title-jp { color: #111; }
 
         @media (hover: hover) {
             .accordion-row:hover .accordion-num { color: var(--accent-blue); }
-            .accordion-row:hover .accordion-title-en { transform: translateX(8px); }
+            .accordion-row:hover .accordion-title-en { padding-left: 12px; }
             .accordion-row:hover .accordion-title-jp { color: #111; }
         }
 
         .accordion-details {
             max-height: 0; opacity: 0; overflow: hidden;
-            transition: max-height 0.6s ease, opacity 0.6s ease, margin-top 0.6s ease;
+            /* margin-top のトランジションを削除し、レイアウト全体のガタつき(リフロー)を根絶 */
+            transition: max-height 0.6s cubic-bezier(0, 1, 0, 1), opacity 0.5s ease;
         }
-        .accordion-row.active .accordion-details { max-height: 520px; opacity: 1; margin-top: 32px; }
+        .accordion-row.active .accordion-details { max-height: 2000px; opacity: 1; }
         
         @media (hover: hover) {
-            .accordion-row:hover .accordion-details { max-height: 520px; opacity: 1; margin-top: 32px; }
+            .accordion-row:hover .accordion-details { max-height: 2000px; opacity: 1; }
         }
 
-        .accordion-inner-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; padding-left: 100px; align-items: center; }
+        .accordion-inner-grid { 
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; padding-left: 100px; align-items: center; 
+            /* margin-top の代わりに内部要素の padding で余白を固定。これにより開閉時のガタつきが消滅します */
+            padding-top: 32px; 
+            padding-bottom: 20px; 
+        }
+        
         .job-detail-text { display: flex; flex-direction: column; gap: 24px; }
         .accordion-desc-text { font-size: 15px; color: #555; line-height: 1.8; margin: 0; }
 
@@ -512,7 +522,7 @@
             .accordion-inner-grid { padding-left: 0; }
             
             /* --- スマホ時のアコーディオン最大高さを増やしてボタンの途切れを防止 --- */
-            .accordion-row.active .accordion-details { max-height: 1200px; }
+            .accordion-row.active .accordion-details { max-height: 2000px; }
             /* ---------------------------------------------------------------------- */
             
             .job-cinematic-image { display: none; } 
@@ -601,7 +611,7 @@
     <!-- ビジネスセクション -->
     <section id="business" class="business container">
         <div class="section-tag">BUSINESS</div>
-        <h2 class="business-concept">一社完結。だからどこよりも速く、美しい。</h2>
+        <h2 class="business-concept">一社完結。だからこそ、どこよりも速く美しい。</h2>
         <p class="business-lead">
             ダイアモンドヘッドはファッションアパレルを中心に、<br class="pc-only">
             プロスポーツチームや様々な業界の小売まで<br class="pc-only">
@@ -613,7 +623,7 @@
                 <div class="story-label">SCALE</div>
                 <h3 class="story-title">企画から販売を完結させる<br>「スケール」</h3>
                 <p class="story-body">
-                    国内外の有名ブランドのECを裏側から支えています。自分の関わったプロダクトが、毎日何十万人ものユーザーの手に渡るダイナミズムを実感できます。<br>
+                    自分の関わったプロダクトが、毎日何十万人ものユーザーの手に渡るダイナミズムを実感できます。<br>
                     「システム開発」「Webデザイン」「Webマーケティング」「写真撮影」「倉庫運営」「カスタマーサポート」を一貫して行っているのが特徴です。
                 </p>
             </div>
@@ -641,7 +651,7 @@
     <section id="jobs" class="jobs-section">
         <div class="container" style="padding-bottom: 40px;">
             <div class="section-tag">JOB OPENINGS</div>
-            <h2 class="jobs-title">未来を創る、4つのコアポジション</h2>
+            <h2 class="jobs-title">チームを構成する、4つのポジション</h2>
         </div>
 
         <div class="jobs-full-container">
@@ -659,11 +669,11 @@
                             <div class="job-detail-text">
                                 <div class="accordion-mission-box">
                                     <h4>MISSION</h4>
-                                    <p class="accordion-desc-text">自社開発企業のエンジニアとして活躍します。ECプラットフォームの設計・開発から、フロントエンド、インフラの構築まで幅広くお任せします。</p>
+                                    <p class="accordion-desc-text">プラットフォームのアーキテクチャ設計から、フロントエンド実装、インフラ構築まで。自社開発の全プロセスを担います。</p>
                                 </div>
                                 <div class="accordion-appeal-box">
                                     <h4>APPEAL</h4>
-                                    <p>決められた仕様通りにコードを書くのではなく、最適な技術選定から実装まで、主体的に開発をリードできる楽しさがあります。</p>
+                                    <p>与えられた仕様をなぞるのではなく、最適な技術選定から実装までを自ら決断する。主体的に開発をリードできる楽しさがあります。</p>
                                 </div>
                                 <div class="mobile-job-image">
                                     <img src="images/job_engineer.jpg" alt="ITエンジニア">
