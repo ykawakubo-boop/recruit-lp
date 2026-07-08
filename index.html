@@ -276,7 +276,7 @@
         }
         
         .job-detail-text { display: flex; flex-direction: column; gap: 24px; }
-        .accordion-desc-text { font-size: 15px; color: #555; line-height: 1.8; margin: 0; }
+        .accordion-desc-text { font-size: 15px; color: #55; line-height: 1.8; margin: 0; }
 
         .accordion-appeal-box h4,
         .accordion-mission-box h4 {
@@ -286,7 +286,7 @@
             display: inline-block; padding-bottom: 4px;
         }
         .accordion-appeal-box p,
-        .accordion-mission-box p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+        .accordion-mission-box p { font-size: 14px; color: #55; line-height: 1.7; margin: 0; }
 
         .accordion-cta-btn {
             display: inline-flex; align-items: center; text-decoration: none; color: #ffffff;
@@ -464,7 +464,7 @@
         .office-slide-info { width: 45%; padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
         .office-slide-info h3 { font-family: 'Bodoni Moda', serif; font-size: 32px; font-weight: 900; margin: 0 0 16px 0; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 8px; align-self: flex-start; letter-spacing: 0.05em; color: #111; }
         .office-slide-info h4 { font-size: 15px; font-weight: 700; margin: 0 0 20px 0; color: #111; line-height: 1.6; }
-        .office-slide-info p { font-size: 14.5px; color: #555; line-height: 1.8; margin: 0 0 32px 0; flex-grow: 1; }
+        .office-slide-info p { font-size: 14.5px; color: #55; line-height: 1.8; margin: 0 0 32px 0; flex-grow: 1; }
         .office-access { margin-top: auto; padding-top: 24px; border-top: 1px solid #f0f0f0; }
         .office-access p { font-size: 12.5px; color: #777; line-height: 1.6; margin: 0; font-feature-settings: "palt"; }
         .office-btn-wrapper { text-align: left; margin-top: 16px; }
@@ -521,7 +521,8 @@
             
             /* ヒーロー全体の中央揃え */
             .hero { flex-direction: column; justify-content: center; align-items: center; padding: 40px 8%; text-align: center; }
-            .hero-content { max-width: 100%; align-items: center; text-align: center; }
+            /* スマホ時：テキスト全体の位置を「1文字分」ほど上へずらすために transform: translateY(-1em); を付与 */
+            .hero-content { max-width: 100%; align-items: center; text-align: center; transform: translateY(-1em); }
             
             /* --- アイコンロゴと「RECRUITMENT」のズレを綺麗に中央揃えに修正 --- */
             .hero-logo { 
