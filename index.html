@@ -189,7 +189,7 @@
             content: ''; display: inline-block; width: 32px; height: 2px; background-color: var(--accent-blue);
         }
         
-        .story-title { font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; line-height: 1.4; margin: 0 0 12px 0; }
+        .story-title { font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; line-height: 1.4; margin: 0; margin-bottom: 12px; }
         .story-body { font-size: 14.5px; color: #555555; line-height: 1.7; margin: 0; }
 
         .story-image-wrapper {
@@ -261,7 +261,7 @@
 
         .accordion-details {
             max-height: 0; opacity: 0; overflow: hidden;
-            /* margin-top のトランジションを削除し、レイアウト全体のガタつき(リフロー)を根絶 */
+            /* margin-top のトランジションを削除し、レイアウト全体のガタつき(リフロー)を根減 */
             transition: max-height 0.6s cubic-bezier(0, 1, 0, 1), opacity 0.5s ease;
         }
         .accordion-row.active .accordion-details { max-height: 2000px; opacity: 1; }
@@ -283,7 +283,7 @@
         .accordion-appeal-box h4,
         .accordion-mission-box h4 {
             font-size: 12px; font-weight: 700; color: #111; letter-spacing: 0.15em;
-            margin: 0 0 10px 0; text-transform: uppercase; 
+            margin: 0; margin-bottom: 10px; text-transform: uppercase; 
             border-bottom: 2px solid var(--accent-blue);
             display: inline-block; padding-bottom: 4px;
         }
@@ -316,10 +316,69 @@
 
         .mobile-job-image { display: none; }
 
+        /* 独立したインフォメーションカードとしての「その他の職種」案内セクション */
+        .jobs-other-guidance {
+            margin: 60px 8% 80px 8%; /* 下部に80pxの余白を設け、セクション境界線（border-bottom）との重なりをスマートに防止 */
+            padding: 32px 40px;
+            border: 1px solid var(--border-color); /* 破線から上品な実線に変更 */
+            border-radius: 8px; /* 角丸を適用してアコーディオン最下部の線から完全に独立 */
+            background-color: #fafbfc; /* 背景にほんの少しトーンを当ててカードとしての存在感を確立 */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); /* 微細なソフトシャドウで浮かび上がらせる */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            box-sizing: border-box;
+        }
+        .other-guidance-text {
+            margin: 0;
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.7;
+        }
+        .other-guidance-text span {
+            display: block;
+            font-family: 'Bodoni Moda', serif;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            color: #111111;
+            margin-bottom: 6px;
+        }
+        .other-guidance-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #111111;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-bottom: 1.5px solid #111111;
+            padding-bottom: 3px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .other-guidance-link::after {
+            content: '→';
+            margin-left: 8px;
+            transition: transform 0.3s;
+        }
+        .other-guidance-link:hover {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+        .other-guidance-link:hover::after {
+            transform: translateX(4px);
+        }
+
         /* =========================================
            6. カルチャーセクション
            ========================================= */
-        .culture { background-color: #ffffff; padding-bottom: 120px; border-top: 1px solid #f0f0f0; }
+        .culture { 
+            background-color: #ffffff; 
+            padding-bottom: 120px; 
+            /* 重複して二重の線に見えていたborder-top: 1px solid #f0f0f0; を完全に削除し、jobs-sectionのborder-bottomに一本化 */
+        }
         .culture.container { padding-top: 120px; }
         .culture-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 120px; gap: 6%; }
         .culture-row.reverse { flex-direction: row-reverse; }
@@ -373,13 +432,13 @@
             margin-top: 6px;
         }
         
-        /* 02. EVENTS: 画像3枚のバランス調整 (黄金比に近い 1.6:1 に変更) */
+        /* 02. EVENTS: 画像3枚のバランス調整 (マラソンの横長画像を活かす新グリッドレイアウト) */
         .culture-images.grid-3 { 
-            grid-template-columns: 1.6fr 1fr; 
-            grid-template-rows: 1fr 1fr; 
-            height: 450px; 
+            grid-template-columns: 1fr 1fr; 
+            grid-template-rows: 215px 260px; /* マラソン写真（下段）の高さをもうほんの少し広げて260pxに拡張 */
+            height: 495px; /* 総高さを215px + 260px + 20px(gap) = 495pxに最適化 */
         }
-        .culture-images.grid-3 .img-main { grid-column: 1 / 2; grid-row: 1 / 3; }
+        .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 2 / 3; } /* マラソン（img-main）を下段全域（2行目の1〜3列）に広げ、横長を美しく格納 */
         
         .culture-img-wrapper { width: 100%; height: 100%; overflow: hidden; background-color: #f5f5f5; }
         
@@ -390,6 +449,11 @@
         }
         .culture-images.grid-3 .culture-img-wrapper:hover img { filter: grayscale(0%); }
         .culture-images.grid-3 .culture-img-wrapper img.colorized { filter: grayscale(0%); }
+
+        /* マラソン画像の頭が切れないよう上詰めに調整（object-position: center top） */
+        .culture-images.grid-3 .img-main img {
+            object-position: center top;
+        }
 
         .culture-btn-wrapper {
             display: flex;
@@ -445,9 +509,70 @@
            ========================================= */
         .office-section { background-color: #ffffff; padding-bottom: 100px; border-top: 1px solid var(--border-color); overflow: hidden; }
         .office-header { max-width: 1240px; margin: 0 auto; padding: 120px 8% 60px 8%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
+        
+        /* 左右矢印配置用のコンテナラッパー */
+        .office-carousel-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        /* PCでのみ表示される洗練された左右ナビゲーションボタン */
+        .office-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            padding: 0;
+            color: #111111;
+        }
+
+        .office-nav-btn:hover {
+            background-color: #111111;
+            border-color: #111111;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .office-nav-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            transition: stroke 0.3s;
+        }
+
+        .office-nav-btn.prev {
+            left: max(3%, calc(50vw - 600px));
+        }
+
+        .office-nav-btn.next {
+            right: max(3%, calc(50vw - 600px));
+        }
+
+        /* カルーセルのドラッグスクロール（グラブ）対応＆テキストの意図せぬ選択防止 */
         .office-carousel {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 40px;
             padding: 0 max(8%, calc(50vw - 500px)); scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 40px;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        .office-carousel:active {
+            cursor: grabbing;
         }
         .office-carousel::-webkit-scrollbar { display: none; }
         
@@ -588,6 +713,22 @@
             .mobile-job-image { display: block; width: 100%; height: 180px; overflow: hidden; margin-top: 16px; }
             .mobile-job-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 0.3s ease; }
             .accordion-row.active .mobile-job-image img { filter: grayscale(0%); }
+
+            /* スマホ時における「その他の職種」案内セクション調整 */
+            .jobs-other-guidance {
+                margin: 40px 5% 50px 5%; /* スマホでも下部に50pxの余白を設けて境界線と離す */
+                padding: 24px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+                border-radius: 6px; /* スマホでもカードとしての角丸を適用 */
+            }
+            .other-guidance-text {
+                font-size: 13px;
+            }
+            .other-guidance-link {
+                align-self: flex-end;
+            }
             
             .culture.container { padding-top: 60px; }
             
@@ -596,8 +737,9 @@
             .culture-images.grid-2 .culture-img-wrapper { height: 140px; padding: 12px; }
             .culture-images.grid-2 .culture-img-wrapper img { max-width: 240px; }
             
+            /* スマホ時のEVENTS画像バランス調整（マラソンを上段にワイド展開） */
             .culture-images.grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; height: auto; gap: 12px; }
-            .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 220px; }
+            .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 200px; } /* スマホ版のマラソン写真高さも200pxに拡張して見やすさを向上 */
             .culture-images.grid-3 .img-sub { height: 140px; }
 
             .culture-btn-wrapper {
@@ -634,6 +776,13 @@
                 right: auto;
                 margin: 20px auto 0 auto;
                 width: 90px; 
+            }
+        }
+
+        /* 1024px以下のタブレット・タッチデバイスではPC用矢印ボタンを非表示にし、ネイティブなスワイプ操作に最適化 */
+        @media (max-width: 1024px) {
+            .office-nav-btn {
+                display: none !important;
             }
         }
     </style>
@@ -686,7 +835,7 @@
                 <div class="story-label">SCALE</div>
                 <h3 class="story-title">企画から販売を完結させる<br>「スケール」</h3>
                 <p class="story-body">
-                    自分の関わったプロダクトが、毎日何十万人ものユーザーの手に渡るダイナミズムを実感できます。<br>
+                    自分の関わったプロダクトが, 毎日何十万人ものユーザーの手に渡るダイナミズムを実感できます。<br>
                     「システム開発」「Webデザイン」「Webマーケティング」「写真撮影」「倉庫運営」「カスタマーサポート」を一貫して行っているのが特徴です。
                 </p>
             </div>
@@ -792,7 +941,7 @@
                             <div class="job-detail-text">
                                 <div class="accordion-mission-box">
                                     <h4>MISSION</h4>
-                                    <p class="accordion-desc-text">有名ブランドや優良クライアントと直接向き合い、ECサイトの売上・利益向上に直結するWeb広告の実務を行います。</p>
+                                    <p class="accordion-desc-text">有名ブランドや優良クライアントと直接向き合い、ECサイトの売上・利益向上に直観するWeb広告の実務を行います。</p>
                                 </div>
                                 <div class="accordion-appeal-box">
                                     <h4>APPEAL</h4>
@@ -846,8 +995,20 @@
                     </div>
                 </div>
 
+            </div> <!-- jobs-interactive-accordion -->
+
+            <!-- その他の職種への案内エリア（目立たせすぎない洗練されたデザイン） -->
+            <div class="jobs-other-guidance">
+                <p class="other-guidance-text">
+                    <span>OTHER POSITIONS</span>
+                    上記以外の職種や、不定期で募集を行うポジションについては、こちらで随時公開しています。
+                </p>
+                <a href="https://recruit.jobcan.jp/diamondhead/list?category_id=20957" target="_blank" rel="noopener noreferrer" class="other-guidance-link">
+                    その他の募集職種を見る
+                </a>
             </div>
-        </div>
+
+        </div> <!-- jobs-full-container -->
     </section>
 
     <!-- カルチャーセクション -->
@@ -856,7 +1017,7 @@
         <h2 class="business-concept" style="margin-bottom: 30px; white-space: normal;">オフも本気。フラットな関係が、<br>最高のチームを創る。</h2>
         <p class="business-lead" style="margin-bottom: 80px;">
             職種や年次の壁を越えたコミュニケーションを何よりも大切にしています。<br class="pc-only">
-            定期的な社内イベントやプロスポーツチームのスポンサー活動を通じて、<br class="pc-only">
+            定期的な社内イベントやプロスポーツチームのスポンサー活動を通じて, <br class="pc-only">
             お互いを深く知り、リスペクトし合えるフラットな関係性を築いています。
         </p>
 
@@ -892,13 +1053,15 @@
                 </p>
             </div>
             <div class="culture-images grid-3">
-                <div class="culture-img-wrapper img-main">
+                <!-- 上段に横幅を半分ずつ分け合う形でバスケとハロウィンを整列 -->
+                <div class="culture-img-wrapper img-sub">
                     <img src="images/culture_basket.JPG" alt="バスケ">
                 </div>
                 <div class="culture-img-wrapper img-sub">
                     <img src="images/culture_halloween.jpg" alt="ハロウィン">
                 </div>
-                <div class="culture-img-wrapper img-sub">
+                <!-- 下段全域を贅沢に使用し、横長写真をそのままの形で綺麗にアライメント -->
+                <div class="culture-img-wrapper img-main">
                     <img src="images/culture_marason.jpg" alt="マラソン">
                 </div>
             </div>
@@ -934,7 +1097,7 @@
                     <li>持株会（住友商事）</li>
                     <li><a href="https://www.ewel.co.jp/recruit/workplace/welbox.html" target="_blank" rel="noopener noreferrer">WELBOX</a></li>
                 </ul>
-                <p class="benefits-note">※福利厚生の内容は、雇用条件・募集職種・配属拠点により異なる場合がございます。詳細は各求人ページの募集要項をご確認ください。</p>
+                <p class="benefits-note">※福利厚生の内容は, 雇用条件・募集職種・配属拠点により異なる場合がございます。詳細は各求人ページの募集要項をご確認ください。</p>
             </div>
 
             <div class="benefits-block">
@@ -965,46 +1128,62 @@
             <h2 class="business-concept" style="margin-bottom: 0;">拠点紹介</h2>
         </div>
 
-        <div class="office-carousel">
-            <!-- 1. STUDIO -->
-            <div class="office-slide">
-                <div class="office-slide-img">
-                    <img src="images/studio.jpg" alt="スタジオ">
-                </div>
-                <div class="office-slide-info">
-                    <h3>STUDIO</h3>
-                    <h4>首都圏に9拠点ある日本最大級のスタジオ。</h4>
-                    <p>ハウススタジオから物流倉庫に併設のスタジオまで、さまざまなニーズに対応したスタジオ運営をしております。膨大な数の商品数をハイクオリティ＆スピーディーに, 撮影からサイト掲載までを日々行うために、自社の管理システムの開発や最新の機器を導入＆活用しております。</p>
-                    <div class="office-btn-wrapper"><a href="https://photo.diamondhead.jp/" target="_blank" rel="noopener noreferrer" class="office-btn">拠点を見る</a></div>
-                </div>
-            </div>
+        <!-- 左右ナビゲーションを配置するためのラッパー -->
+        <div class="office-carousel-wrapper">
+            
+            <!-- スリークな丸型ナビゲーションボタン（PCのみ表示） -->
+            <button class="office-nav-btn prev" aria-label="前のオフィスを見る" type="button">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <button class="office-nav-btn next" aria-label="次のオフィスを見る" type="button">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
 
-            <!-- 2. SAPPORO -->
-            <div class="office-slide">
-                <div class="office-slide-img">
-                    <img src="images/sapporo.jpg" alt="札幌本社">
-                </div>
-                <div class="office-slide-info">
-                    <h3>SAPPORO</h3>
-                    <h4>専門分野に特化したクリエイティブなオフィス</h4>
-                    <p>札幌本社では、システム＆サービス開発・デザイン・マーケティングなどの専門分野に特化した役割を担っています。</p>
-                    <div class="office-access">
-                        <p>〒060-0001<br>北海道札幌市中央区北1条西1丁目6 さっぽろ創世スクエア14F<br>TEL: 011-222-0535 | FAX: 050-3588-1047</p>
+            <div class="office-carousel">
+                <!-- 1. STUDIO -->
+                <div class="office-slide">
+                    <div class="office-slide-img">
+                        <img src="images/studio.jpg" alt="スタジオ">
+                    </div>
+                    <div class="office-slide-info">
+                        <h3>STUDIO</h3>
+                        <h4>首都圏に9拠点ある日本最大級のスタジオ。</h4>
+                        <p>ハウススタジオから物流倉庫に併設のスタジオまで、さまざまなニーズに対応したスタジオ運営をしております。膨大な数の商品数をハイクオリティ＆スピーディーに, 撮影からサイト掲載までを日々行うために、自社の管理システムの開発や最新の機器を導入＆活用しております。</p>
+                        <div class="office-btn-wrapper"><a href="https://photo.diamondhead.jp/" target="_blank" rel="noopener noreferrer" class="office-btn">拠点を見る</a></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 3. TOKYO -->
-            <div class="office-slide">
-                <div class="office-slide-img">
-                    <img src="images/tokyo.jpg" alt="東京本社">
+                <!-- 2. SAPPORO -->
+                <div class="office-slide">
+                    <div class="office-slide-img">
+                        <img src="images/sapporo.jpg" alt="札幌本社">
+                    </div>
+                    <div class="office-slide-info">
+                        <h3>SAPPORO</h3>
+                        <h4>専門分野に特化したクリエイティブなオフィス</h4>
+                        <p>札幌本社では、システム＆サービス開発・デザイン・マーケティングなどの専門分野に特化した役割を担っています。</p>
+                        <div class="office-access">
+                            <p>〒060-0001<br>北海道札幌市中央区北1条西1丁目6 さっぽろ創世スクエア14F<br>TEL: 011-222-0535 | FAX: 050-3588-1047</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="office-slide-info">
-                    <h3>TOKYO</h3>
-                    <h4>ミーティングフロアと業務フロアが分かれたオフィス</h4>
-                    <p>東京本社では、クライアントと顔を合わせて打ち合わせができる職種を多く配置しています。気持ちよく来社していただけるスペースになっています。</p>
-                    <div class="office-access">
-                        <p>〒108-0073<br>東京都港区三田2-7-13 TDS三田ビル6・7F<br>TEL: 03-5876-4160</p>
+
+                <!-- 3. TOKYO -->
+                <div class="office-slide">
+                    <div class="office-slide-img">
+                        <img src="images/tokyo.jpg" alt="東京本社">
+                    </div>
+                    <div class="office-slide-info">
+                        <h3>TOKYO</h3>
+                        <h4>ミーティングフロアと業務フロアが分かれたオフィス</h4>
+                        <p>東京本社では、クライアントと顔を合わせて打ち合わせができる職種を多く配置しています。気持ちよく来社していただけるスペースになっています。</p>
+                        <div class="office-access">
+                            <p>〒108-0073<br>東京都港区三田2-7-13 TDS三田ビル6・7F<br>TEL: 03-5876-4160</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1037,7 +1216,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // =========================================
-            // A. 背景 of JS 制御スライダー (フェード遅れ & 白飛びの完全解決)
+            // A. 背景のJS 制御スライダー (フェード遅れ & 白飛びの完全解決)
             // =========================================
             const slides = document.querySelectorAll('.bg-slide');
             if (slides.length > 0) {
@@ -1176,6 +1355,113 @@
                         const slideHalfWidth = sapporoSlide.clientWidth / 2;
                         officeCarousel.scrollLeft = sapporoSlide.offsetLeft - carouselHalfWidth + slideHalfWidth;
                     }
+                }
+            }
+
+            // =========================================
+            // F. 拠点紹介（OFFICES）のデスクトップ向け操作拡張（ドラッグ＆矢印ボタン）
+            // =========================================
+            const carousel = document.querySelector('.office-carousel');
+            const prevBtn = document.querySelector('.office-nav-btn.prev');
+            const nextBtn = document.querySelector('.office-nav-btn.next');
+
+            if (carousel) {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                let isDragging = false;
+
+                // 1. マウスドラッグによるグラブスクロール制御
+                carousel.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    carousel.classList.add('active');
+                    startX = e.pageX - carousel.offsetLeft;
+                    scrollLeft = carousel.scrollLeft;
+                    isDragging = false;
+                });
+
+                carousel.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    carousel.classList.remove('active');
+                });
+
+                carousel.addEventListener('mouseup', () => {
+                    isDown = false;
+                    carousel.classList.remove('active');
+                });
+
+                carousel.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - carousel.offsetLeft;
+                    const walk = (x - startX) * 1.5; // ドラッグスピードの感度調整
+                    carousel.scrollLeft = scrollLeft - walk;
+                    isDragging = true;
+                });
+
+                // ドラッグ移動中の誤ったクリック発火を防止
+                const links = carousel.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        if (isDragging) {
+                            e.preventDefault();
+                        }
+                    });
+                });
+
+                // 2. 左右矢印ボタンのクリック制御
+                if (prevBtn && nextBtn) {
+                    const getScrollAmount = () => {
+                        // カルーセルの表示幅の80%またはスライド1枚分をスクロール距離とする
+                        const firstSlide = carousel.querySelector('.office-slide');
+                        if (firstSlide) {
+                            return firstSlide.clientWidth + 40; // スライド幅 + gap
+                        }
+                        return carousel.clientWidth * 0.8;
+                    };
+
+                    prevBtn.addEventListener('click', () => {
+                        carousel.scrollBy({
+                            left: -getScrollAmount(),
+                            behavior: 'smooth'
+                        });
+                    });
+
+                    nextBtn.addEventListener('click', () => {
+                        carousel.scrollBy({
+                            left: getScrollAmount(),
+                            behavior: 'smooth'
+                        });
+                    });
+
+                    // スクロール位置に応じた矢印ボタンのフェード＆有効化制御
+                    const updateNavButtons = () => {
+                        const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+                        
+                        // 左端の判定
+                        if (carousel.scrollLeft <= 10) {
+                            prevBtn.style.opacity = '0.2';
+                            prevBtn.style.pointerEvents = 'none';
+                        } else {
+                            prevBtn.style.opacity = '1';
+                            prevBtn.style.pointerEvents = 'auto';
+                        }
+
+                        // 右端の判定
+                        if (carousel.scrollLeft >= maxScrollLeft - 10) {
+                            nextBtn.style.opacity = '0.2';
+                            nextBtn.style.pointerEvents = 'none';
+                        } else {
+                            nextBtn.style.opacity = '1';
+                            nextBtn.style.pointerEvents = 'auto';
+                        }
+                    };
+
+                    // イベント登録
+                    carousel.addEventListener('scroll', updateNavButtons);
+                    // 初期表示位置(Sapporoフォーカス後)の更新判定用のバッファ
+                    setTimeout(updateNavButtons, 350);
+                    window.addEventListener('resize', updateNavButtons);
                 }
             }
         });
