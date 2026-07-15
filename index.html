@@ -36,6 +36,13 @@
             overflow-x: hidden;
         }
 
+        /* ★ ブラウザ標準や拡張機能によるホバー時の「画像検索アイコン（ビジュアルサーチ）」表示を一括して防止。
+           ロゴ等のクリックイベントは親の<a>タグが機能するため、リンク動作を阻害せず美観だけを守ります。
+        */
+        img {
+            pointer-events: none;
+        }
+
         .container {
             max-width: 1240px; margin: 0 auto;
             padding: 100px 8%; box-sizing: border-box;
@@ -272,7 +279,7 @@
 
         .accordion-inner-grid { 
             display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; padding-left: 100px; align-items: center; 
-            /* margin-top の代わりに内部要素の padding で余白を固定。これにより開閉時のガタつきが消滅します */
+            /* margin-top の代わりに内部要素 of padding で余白を固定。これにより開閉時のガタつきが消滅します */
             padding-top: 32px; 
             padding-bottom: 20px; 
         }
@@ -565,14 +572,10 @@
         .office-carousel {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 40px;
             padding: 0 max(8%, calc(50vw - 500px)); scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 40px;
-            cursor: grab;
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-        }
-        .office-carousel:active {
-            cursor: grabbing;
         }
         .office-carousel::-webkit-scrollbar { display: none; }
         
@@ -816,7 +819,7 @@
             <li><a href="#culture">CULTURE</a></li>
             <li><a href="#benefits">BENEFITS</a></li>
             <li><a href="#office">OFFICES</a></li>
-            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSe3ourzAaRgRIV6fMVq2dziMm5qKey4Iell5d3bjStALeWT5A/viewform" target="_blank" rel="noopener noreferrer">CONTACT</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSe3ourzAaRgRIV6fMVq2dziMm5qKey4Iell5d3bjStALeWT5A/viewform" target="_blank" rel="noopener noreferrer" class="contact-btn">CONTACT</a></li>
         </ul>
     </nav>
 
@@ -1055,7 +1058,7 @@
             <div class="culture-images grid-3">
                 <!-- 上段に横幅を半分ずつ分け合う形でバスケとハロウィンを整列 -->
                 <div class="culture-img-wrapper img-sub">
-                    <img src="images/culture_basket.jpg" alt="バスケ">
+                    <img src="images/culture_basket.JPG" alt="バスケ">
                 </div>
                 <div class="culture-img-wrapper img-sub">
                     <img src="images/culture_halloween.jpg" alt="ハロウィン">
