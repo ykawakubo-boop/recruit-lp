@@ -400,7 +400,7 @@
         .site-footer { padding-top: 40px; display: flex; justify-content: center; }
         .site-footer p { font-size: 11px; color: #555; margin: 0; }
         
-        .footer-scsk-logo { position: absolute; bottom: 24px; right: 32px; width: clamp(100px, 12vw, 140px); opacity: 0.8; transition: opacity 0.3s; }
+        .footer-scsk-logo { position: absolute; bottom: 24px; right: 32px; width: clamp(100px, 12vw, 140px); opacity: 0.8; transition: opacity 0.3s; display: block; }
         .footer-scsk-logo:hover { opacity: 1; }
         .footer-scsk-logo img { width: 100%; height: auto; }
 
@@ -491,12 +491,12 @@
             .office-slide-info p { font-size: 13.5px; margin-bottom: 24px; }
             
             /* CONTACT */
-            .contact-section { padding: 50px 0 30px 0; }
-            .contact-card-box { padding: 40px 24px; }
+            .contact-section { padding: 60px 0 40px 0; }
+            .contact-card-box { padding: 40px 20px; }
             .contact-tag-eng { font-size: 32px; }
-            .contact-btn { width: 100%; padding: 12px 0; max-width: 260px; }
+            .contact-btn { width: 100%; max-width: 300px; padding: 16px 20px; box-sizing: border-box; justify-content: center; }
             .site-footer { padding-top: 30px; flex-direction: column; }
-            .footer-scsk-logo { position: relative; margin: 20px auto 0 auto; width: 90px; }
+            .footer-scsk-logo { position: relative; bottom: auto; right: auto; display: block; margin: 30px auto 0 auto; width: 100px; }
         }
     </style>
 </head>
@@ -862,7 +862,7 @@
                     </div>
                 </div>
 
-                <!-- 2. SAPPORO -->
+                <!-- 2. SAPPORO (真ん中デフォルト) -->
                 <div class="office-slide">
                     <div class="office-slide-img">
                         <img src="images/sapporo.jpg" alt="札幌本社">
@@ -1014,17 +1014,19 @@
             const nextBtn = document.querySelector('.office-nav-btn.next');
 
             if (carousel) {
+                // 真ん中のSAPPOROを初期位置にスクロール（PC/スマホ共通）
                 const slides = carousel.querySelectorAll('.office-slide');
                 if (slides.length > 1) {
                     const adjustPosition = () => {
-                        if (window.innerWidth > 768) {
-                            const halfCarousel = carousel.clientWidth / 2;
-                            const halfSlide = slides[1].clientWidth / 2;
-                            carousel.scrollLeft = slides[1].offsetLeft - halfCarousel + halfSlide;
-                        }
+                        const halfCarousel = carousel.clientWidth / 2;
+                        const halfSlide = slides[1].clientWidth / 2;
+                        carousel.scrollLeft = slides[1].offsetLeft - halfCarousel + halfSlide;
                     };
-                    setTimeout(adjustPosition, 200);
-                    window.addEventListener('resize', adjustPosition);
+                    setTimeout(adjustPosition, 100);
+                    window.addEventListener('resize', () => {
+                        clearTimeout(carousel._resizeTimer);
+                        carousel._resizeTimer = setTimeout(adjustPosition, 100);
+                    });
                 }
 
                 let isDown = false, startX, scrollLeft, isDragging = false;
