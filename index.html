@@ -27,7 +27,12 @@
             font-family: 'Noto Sans JP', sans-serif;
             background-color: var(--bg-base);
             color: var(--text-dark);
-            overflow-x: hidden;
+            overflow-x: hidden; /* 横揺れ防止 */
+        }
+
+        /* ボックスサイズの統一（崩れ防止） */
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
 
         /* 画像ホバー時のブラウザ標準UI非表示 */
@@ -35,7 +40,7 @@
 
         .container {
             max-width: 1240px; margin: 0 auto;
-            padding: 100px 8%; box-sizing: border-box;
+            padding: 100px 8%;
         }
 
         .section-tag {
@@ -61,7 +66,7 @@
         .hero {
             position: relative; width: 100%; height: 100vh; min-height: 600px;
             display: flex; align-items: center; justify-content: flex-start;
-            box-sizing: border-box; padding: 0 10%; overflow: hidden;
+            padding: 0 10%; overflow: hidden;
         }
 
         .slider-wrapper, .bg-slide {
@@ -195,20 +200,31 @@
         }
         .accordion-title-jp { font-size: 15px; font-weight: 700; color: #888; margin-left: 24px; transition: color 0.3s ease; }
 
-        .accordion-row.active .accordion-num, .accordion-row:hover .accordion-num { color: var(--accent-blue); }
-        .accordion-row.active .accordion-title-en, .accordion-row:hover .accordion-title-en { padding-left: 12px; }
-        .accordion-row.active .accordion-title-jp, .accordion-row:hover .accordion-title-jp { color: var(--text-dark); }
+        /* ホバー時の変化 */
+        @media (hover: hover) {
+            .accordion-row:hover .accordion-num { color: var(--accent-blue); }
+            .accordion-row:hover .accordion-title-en { padding-left: 12px; }
+            .accordion-row:hover .accordion-title-jp { color: var(--text-dark); }
+        }
+        .accordion-row.active .accordion-num { color: var(--accent-blue); }
+        .accordion-row.active .accordion-title-en { padding-left: 12px; }
+        .accordion-row.active .accordion-title-jp { color: var(--text-dark); }
 
-        /* ★ アコーディオン開閉のガタつきを無くす最新のGridレイアウト指定 */
+        /* 以前の安定した開閉方式（max-height）に変更 */
         .accordion-details {
-            display: grid; grid-template-rows: 0fr; opacity: 0;
-            transition: grid-template-rows 0.5s cubic-bezier(0, 1, 0, 1), opacity 0.4s ease;
+            max-height: 0; overflow: hidden; opacity: 0;
+            transition: max-height 0.6s ease, opacity 0.4s ease;
         }
-        .accordion-row.active .accordion-details, .accordion-row:hover .accordion-details {
-            grid-template-rows: 1fr; opacity: 1;
+        @media (hover: hover) {
+            .accordion-row:hover .accordion-details {
+                max-height: 1200px; opacity: 1;
+            }
         }
+        .accordion-row.active .accordion-details {
+            max-height: 1200px; opacity: 1;
+        }
+
         .accordion-inner-grid { 
-            overflow: hidden; /* Gridアニメーションに必須 */
             display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
             padding: 32px 0 20px 100px; align-items: center; 
         }
@@ -232,7 +248,12 @@
 
         .job-cinematic-image { width: 100%; height: 260px; overflow: hidden; position: relative; }
         .job-cinematic-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 0.8s ease; }
-        .accordion-row.active .job-cinematic-image img, .accordion-row:hover .job-cinematic-image img { filter: grayscale(0%); }
+        
+        @media (hover: hover) {
+            .accordion-row:hover .job-cinematic-image img { filter: grayscale(0%); }
+        }
+        .accordion-row.active .job-cinematic-image img { filter: grayscale(0%); }
+        
         .mobile-job-image { display: none; }
 
         .jobs-other-guidance {
@@ -255,7 +276,7 @@
         /* =========================================
            6. カルチャーセクション
            ========================================= */
-        .culture { background-color: #ffffff; padding: 120px 8% 120px 8%; }
+        .culture { background-color: #ffffff; padding-top: 120px; padding-bottom: 120px; }
         .culture-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 120px; gap: 6%; }
         .culture-row.reverse { flex-direction: row-reverse; }
         .culture-row:last-child { margin-bottom: 0; }
@@ -268,7 +289,7 @@
         .culture-img-container { display: flex; flex-direction: column; align-items: flex-end; width: 100%; }
         .culture-images.grid-2 .culture-img-wrapper {
             height: 180px; width: 100%; background-color: #f5f5f5;
-            display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center; padding: 16px;
         }
         .culture-images.grid-2 .culture-img-wrapper img {
             width: 100%; height: 100%; max-width: 340px; object-fit: contain;
@@ -398,6 +419,7 @@
             .culture-text, .culture-images { width: 100%; }
         }
 
+        /* 崩れを防止する安全なモバイルレイアウト */
         @media (max-width: 768px) {
             .container { padding: 60px 5%; }
             .pc-only { display: none; }
@@ -424,25 +446,28 @@
             
             /* JOBS */
             .jobs-section { padding-top: 60px; padding-bottom: 0; }
-            .accordion-row, .accordion-row.active { padding: 32px 5%; }
-            .accordion-headline-wrap { flex-wrap: wrap; }
+            .accordion-row { padding: 32px 5%; }
+            .accordion-row.active { padding: 32px 5%; }
+            .accordion-headline-wrap { flex-wrap: wrap; align-items: center; }
             .accordion-num { font-size: 24px; width: 40px; margin-right: 16px; }
-            .accordion-title-en { font-size: 22px; }
+            .accordion-title-en { font-size: 22px; margin: 0; }
             .accordion-title-jp { width: 100%; margin-left: 56px; margin-top: 8px; font-size: 13px; }
-            .accordion-inner-grid { padding-left: 0; }
+            .accordion-inner-grid { padding-left: 0; gap: 24px; }
             .job-cinematic-image { display: none; } 
+            
             .mobile-job-image { display: block; width: 100%; height: 180px; overflow: hidden; margin-top: 16px; }
             .mobile-job-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 0.3s ease; }
             .accordion-row.active .mobile-job-image img { filter: grayscale(0%); }
+            
             .jobs-other-guidance { margin: 40px 5% 50px 5%; padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 20px; border-radius: 6px; }
             .other-guidance-text { font-size: 13px; }
             .other-guidance-link { align-self: flex-end; }
             
             /* CULTURE */
-            .culture.container { padding-top: 60px; }
+            .culture.container { padding-top: 60px; padding-left: 5%; padding-right: 5%; }
             .culture-images.grid-2 { height: auto; gap: 20px; }
-            .culture-images.grid-2 .culture-img-wrapper { height: 140px; padding: 12px; }
-            .culture-images.grid-2 .culture-img-wrapper img { max-width: 240px; }
+            .culture-images.grid-2 .culture-img-wrapper { height: auto; padding: 20px; }
+            .culture-images.grid-2 .culture-img-wrapper img { max-width: 100%; height: auto; }
             .culture-images.grid-3 { grid-template-rows: auto auto; height: auto; gap: 12px; }
             .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 200px; }
             .culture-images.grid-3 .img-sub { height: 140px; }
@@ -910,16 +935,20 @@
             }
 
             // =========================================
-            // 2. アコーディオン開閉 (PCホバー / スマホクリック)
+            // 2. アコーディオン開閉 (スマホ対応版)
             // =========================================
             const accordionRows = document.querySelectorAll(".accordion-row");
             accordionRows.forEach(row => {
                 row.addEventListener("click", function(e) {
+                    // リンク（ボタン等）のクリック時は開閉しない
                     if (e.target.closest('a')) return;
+                    
+                    // スマホ幅のときのみタップ開閉を有効にする
                     if (window.innerWidth <= 768) {
                         if (row.classList.contains("active")) {
                             row.classList.remove("active");
                         } else {
+                            // 他を開いている場合は閉じる
                             accordionRows.forEach(r => r.classList.remove("active"));
                             row.classList.add("active");
                         }
@@ -939,7 +968,6 @@
                 const currentScrollY = window.scrollY;
                 const heroHeight = document.querySelector('.hero').offsetHeight;
 
-                // ヒーローセクションを過ぎたら固定開始
                 if (currentScrollY > heroHeight - 100) {
                     if (!nav.classList.contains('is-fixed')) {
                         nav.classList.add('is-fixed');
@@ -947,9 +975,9 @@
                         navPlaceholder.style.height = nav.offsetHeight + 'px';
                     }
                     if (currentScrollY > lastScrollY && currentScrollY > heroHeight) {
-                        nav.classList.add('is-hidden'); // 下スクロールで隠す
+                        nav.classList.add('is-hidden'); 
                     } else if (currentScrollY < lastScrollY) {
-                        nav.classList.remove('is-hidden'); // 上スクロールで表示
+                        nav.classList.remove('is-hidden'); 
                     }
                 } else {
                     nav.classList.remove('is-fixed', 'is-hidden');
@@ -986,7 +1014,6 @@
             const nextBtn = document.querySelector('.office-nav-btn.next');
 
             if (carousel) {
-                // 初期位置をSAPPORO(2枚目)に合わせる
                 const slides = carousel.querySelectorAll('.office-slide');
                 if (slides.length > 1) {
                     const adjustPosition = () => {
@@ -1000,7 +1027,6 @@
                     window.addEventListener('resize', adjustPosition);
                 }
 
-                // マウスドラッグ操作
                 let isDown = false, startX, scrollLeft, isDragging = false;
                 carousel.addEventListener('mousedown', (e) => {
                     isDown = true; startX = e.pageX - carousel.offsetLeft; scrollLeft = carousel.scrollLeft; isDragging = false;
@@ -1018,7 +1044,6 @@
                     link.addEventListener('click', (e) => { if (isDragging) e.preventDefault(); });
                 });
 
-                // 矢印ボタン操作
                 if (prevBtn && nextBtn) {
                     const getScrollDist = () => {
                         const firstSlide = carousel.querySelector('.office-slide');
