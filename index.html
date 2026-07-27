@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>採用情報 | ダイアモンドヘッド株式会社</title>
-<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://diamondhead.jp/assets/images/common/favicon/favicon.ico">
-<link rel="apple-touch-icon" type="image/png" href="https://diamondhead.jp/assets/images/common/favicon/apple-touch-icon-180x180.png">
-<link rel="icon" type="image/png" href="https://diamondhead.jp/assets/images/common/favicon/icon-192x192.png">
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://diamondhead.jp/assets/images/common/favicon/favicon.ico">
+    <link rel="apple-touch-icon" type="image/png" href="https://diamondhead.jp/assets/images/common/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="https://diamondhead.jp/assets/images/common/favicon/icon-192x192.png">
     <style>
         /* =========================================
-           1. 全体設定・フォント読み込み
+           1. 全体設定・変数
            ========================================= */
         @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap');
 
@@ -19,15 +19,9 @@
             --text-muted: #555555;
             --border-color: #e2e8f0;
             --accent-blue: #00bfa5; 
-            --job-color-1: #111111; 
-            --job-color-2: #333333; 
-            --job-color-3: #555555; 
-            --job-color-4: #222222; 
         }
 
-        /* スクロールバー出現による横揺れ(ガタつき)を防止するため overflow-y: scroll を追加 */
         html { scroll-behavior: smooth; overflow-y: scroll; }
-
         body, html {
             margin: 0; padding: 0; width: 100%;
             font-family: 'Noto Sans JP', sans-serif;
@@ -36,12 +30,8 @@
             overflow-x: hidden;
         }
 
-        /* ★ ブラウザ標準や拡張機能によるホバー時の「画像検索アイコン（ビジュアルサーチ）」表示を一括して防止。
-           ロゴ等のクリックイベントは親の<a>タグが機能するため、リンク動作を阻害せず美観だけを守ります。
-        */
-        img {
-            pointer-events: none;
-        }
+        /* 画像ホバー時のブラウザ標準UI非表示 */
+        img { pointer-events: none; }
 
         .container {
             max-width: 1240px; margin: 0 auto;
@@ -49,30 +39,24 @@
         }
 
         .section-tag {
-            font-size: 1rem; font-weight: 700;
-            color: var(--accent-blue);
-            letter-spacing: 0.2em;
-            margin-bottom: 16px; text-transform: uppercase;
-            text-align: center;
+            font-size: 1rem; font-weight: 700; color: var(--accent-blue);
+            letter-spacing: 0.2em; margin-bottom: 16px;
+            text-transform: uppercase; text-align: center;
         }
 
         .sp-only { display: none; }
+        .pc-only { display: inline; }
 
-        /* GPUレンダリング時の画像ボヤけバグを解消する定義 */
-        .job-cinematic-image img,
-        .mobile-job-image img,
-        .story-image,
-        .culture-img-wrapper img,
-        .office-slide-img img {
-            image-rendering: -webkit-optimize-contrast;
+        /* 画像最適化 */
+        .job-cinematic-image img, .mobile-job-image img, .story-image,
+        .culture-img-wrapper img, .office-slide-img img {
             backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
             transform-style: preserve-3d;
             will-change: transform, filter;
         }
 
         /* =========================================
-           2. ヒーローセクション (Ken Burns & Smooth Fade)
+           2. ヒーローセクション
            ========================================= */
         .hero {
             position: relative; width: 100%; height: 100vh; min-height: 600px;
@@ -80,22 +64,16 @@
             box-sizing: border-box; padding: 0 10%; overflow: hidden;
         }
 
-        .slider-wrapper {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
-        }
-
-        .bg-slide {
+        .slider-wrapper, .bg-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .slider-wrapper { z-index: 1; }
+        .bg-slide {
             background-size: cover; background-position: center; 
-            opacity: 0;
-            filter: grayscale(70%) contrast(1.1) brightness(0.9);
+            opacity: 0; filter: grayscale(70%) contrast(1.1) brightness(0.9);
             transition: opacity 1.8s ease-in-out;
         }
-
-        .bg-slide.active {
-            opacity: 1;
-            z-index: 3;
-        }
+        .bg-slide.active { opacity: 1; z-index: 3; }
 
         .hero::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -107,35 +85,25 @@
             position: relative; z-index: 10; max-width: 60%;
             display: flex; flex-direction: column; align-items: flex-start;
         }
-
         .hero-logo {
             width: clamp(150px, 15vw, 200px); margin-bottom: 24px;
             opacity: 0; transform: translateY(20px); animation: fadeInUp 1.2s ease forwards 0.1s;
         }
-        
         .hero-logo img { width: 100%; height: auto; }
-
         .hero-logo-sub {
-            font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 700;
-            letter-spacing: 0.84em; color: #555555; margin-top: 14px; text-indent: 0.84em;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.84em;
+            color: var(--text-muted); margin-top: 14px; text-indent: 0.84em;
         }
-
         .hero-title { margin: 0; display: flex; flex-direction: column; align-items: flex-start; }
-
         .hero-tagline {
             font-family: 'Zen Kaku Gothic New', sans-serif;
-            font-size: clamp(32px, 4.2vw, 56px); font-weight: 900; color: #111111;
-            line-height: 1.35; letter-spacing: 0.02em; margin: 0;
+            font-size: clamp(32px, 4.2vw, 56px); font-weight: 900; line-height: 1.35; margin: 0;
             opacity: 0; transform: translateY(30px); animation: fadeInUp 1.2s ease forwards 0.3s;
         }
-
         .hero-keyline {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: clamp(14px, 1.8vw, 20px); font-weight: 400; color: #333333;
-            margin-top: 24px; line-height: 1.6; letter-spacing: 0.08em;
+            font-size: clamp(14px, 1.8vw, 20px); margin-top: 24px; line-height: 1.6; letter-spacing: 0.08em;
             opacity: 0; transform: translateY(20px); animation: fadeInUp 1.2s ease forwards 0.6s;
-            border-left: 2px solid var(--accent-blue);
-            padding-left: 20px;
+            border-left: 2px solid var(--accent-blue); padding-left: 20px;
         }
 
         /* =========================================
@@ -144,21 +112,19 @@
         .nav-placeholder { display: none; }
         .main-nav {
             width: 100%; background-color: #ffffff; border-bottom: 1px solid #f0f0f0;
-            display: flex; justify-content: center; padding: 20px 0;
-            z-index: 1000;
+            display: flex; justify-content: center; padding: 20px 0; z-index: 1000;
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
         .main-nav.is-fixed {
             position: fixed; top: 0; left: 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
         }
         .main-nav.is-hidden { transform: translateY(-100%); }
 
         .nav-list { display: flex; gap: 40px; list-style: none; margin: 0; padding: 0; }
         .nav-list a {
-            text-decoration: none; color: #111111; font-size: 13px; font-weight: 700;
+            text-decoration: none; color: var(--text-dark); font-size: 13px; font-weight: 700;
             letter-spacing: 0.15em; position: relative; transition: color 0.3s ease;
         }
         .nav-list a:hover { color: var(--accent-blue); }
@@ -173,14 +139,15 @@
            ========================================= */
         .business-concept {
             font-size: clamp(20px, 3.5vw, 42px); font-weight: 700; line-height: 1.4;
-            margin: 0 auto 40px auto; text-align: center; white-space: nowrap; letter-spacing: -0.01em;
+            margin: 0 auto 40px auto; text-align: center; white-space: nowrap;
         }
         .business-lead {
-            font-size: clamp(15px, 1.8vw, 18px); font-weight: 400; color: #555555;
+            font-size: clamp(15px, 1.8vw, 18px); color: var(--text-muted);
             text-align: center; line-height: 1.8; max-width: 800px; margin: 0 auto 70px auto;
         }
         .business-lead::before {
-            content: ''; display: block; width: 40px; height: 2px; background-color: var(--accent-blue); margin: 0 auto 24px auto;
+            content: ''; display: block; width: 40px; height: 2px;
+            background-color: var(--accent-blue); margin: 0 auto 24px auto;
         }
 
         .story-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 60px; gap: 5%; }
@@ -189,324 +156,155 @@
         
         .story-text { flex: 1; max-width: 48%; }
         .story-label {
-            font-size: 14px; font-weight: 700; color: #666666; margin-bottom: 12px;
+            font-size: 14px; font-weight: 700; color: #666; margin-bottom: 12px;
             letter-spacing: 0.05em; display: flex; align-items: center; gap: 12px;
         }
-        .story-label::after {
-            content: ''; display: inline-block; width: 32px; height: 2px; background-color: var(--accent-blue);
-        }
-        
-        .story-title { font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; line-height: 1.4; margin: 0; margin-bottom: 12px; }
-        .story-body { font-size: 14.5px; color: #555555; line-height: 1.7; margin: 0; }
+        .story-label::after { content: ''; display: inline-block; width: 32px; height: 2px; background-color: var(--accent-blue); }
+        .story-title { font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; line-height: 1.4; margin: 0 0 12px 0; }
+        .story-body { font-size: 14.5px; color: var(--text-muted); line-height: 1.7; margin: 0; }
 
-        .story-image-wrapper {
-            flex: 1; max-width: 47%; height: 280px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-        }
+        .story-image-wrapper { flex: 1; max-width: 47%; height: 280px; overflow: hidden; }
         .story-image {
             width: 100%; height: 100%; background-size: cover; background-position: center;
             filter: grayscale(70%); transition: filter 1.5s ease;
         }
-        .story-image-wrapper:hover .story-image { filter: grayscale(0%); }
-        .story-image.colorized { filter: grayscale(0%); }
+        .story-image-wrapper:hover .story-image, .story-image.colorized { filter: grayscale(0%); }
 
         /* =========================================
            5. ジョブセクション
            ========================================= */
-        .jobs-section {
-            background-color: #ffffff;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-        }
-        .jobs-title {
-            font-size: clamp(24px, 4vw, 36px); font-weight: 700; color: #111111;
-            margin: 0 0 40px 0; text-align: center;
-        }
-        .jobs-full-container { width: 100%; display: block; max-width: 1300px; margin: 0 auto; }
-        .jobs-interactive-accordion { width: 100%; display: flex; flex-direction: column; border-top: 1px solid var(--border-color); }
+        .jobs-section { background-color: #ffffff; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .jobs-title { font-size: clamp(24px, 4vw, 36px); font-weight: 700; margin: 0 0 40px 0; text-align: center; }
+        .jobs-full-container { max-width: 1300px; margin: 0 auto; }
+        .jobs-interactive-accordion { display: flex; flex-direction: column; border-top: 1px solid var(--border-color); }
 
         .accordion-row {
-            border-bottom: 1px solid var(--border-color);
-            padding: 40px 8%; cursor: pointer;
-            transition: background-color 0.4s ease;
-            position: relative; overflow: hidden;
+            border-bottom: 1px solid var(--border-color); padding: 40px 8%;
+            cursor: pointer; transition: background-color 0.3s ease;
         }
+        .accordion-row.active, .accordion-row:hover { background-color: #fafafa; }
 
-        .accordion-row.active { background-color: #fafafa; }
-        
-        @media (hover: hover) {
-            .accordion-row:hover { background-color: #fafafa; }
-        }
-
-        .accordion-headline-wrap { display: flex; align-items: baseline; justify-content: flex-start; width: 100%; }
+        .accordion-headline-wrap { display: flex; align-items: baseline; justify-content: flex-start; }
         .accordion-num {
             font-family: 'Bodoni Moda', serif; font-size: 32px; font-weight: 900;
-            color: #e2e8f0; margin-right: 40px; width: 60px; text-align: left;
-            transition: color 0.4s ease;
+            color: #e2e8f0; margin-right: 40px; width: 60px; transition: color 0.3s ease;
         }
         .accordion-title-en {
-            font-family: 'Bodoni Moda', serif; font-size: clamp(24px, 3.5vw, 40px);
-            font-weight: 900; text-transform: uppercase; color: #111111; letter-spacing: 0.05em; line-height: 1;
-            /* テキスト自体のガタつき(震え)を防ぐため transform を廃止し、padding-left で移動させます */
-            padding-left: 0;
-            transition: padding-left 0.4s ease;
+            font-family: 'Bodoni Moda', serif; font-size: clamp(24px, 3.5vw, 40px); font-weight: 900;
+            text-transform: uppercase; padding-left: 0; transition: padding-left 0.3s ease; line-height: 1;
         }
-        .accordion-title-jp {
-            font-size: 15px; font-weight: 700; color: #888; margin-left: 24px;
-            transition: color 0.4s ease;
-        }
+        .accordion-title-jp { font-size: 15px; font-weight: 700; color: #888; margin-left: 24px; transition: color 0.3s ease; }
 
-        .accordion-row.active .accordion-num { color: var(--accent-blue); }
-        .accordion-row.active .accordion-title-en { padding-left: 12px; } /* translateX(8px) の代わり */
-        .accordion-row.active .accordion-title-jp { color: #111; }
+        .accordion-row.active .accordion-num, .accordion-row:hover .accordion-num { color: var(--accent-blue); }
+        .accordion-row.active .accordion-title-en, .accordion-row:hover .accordion-title-en { padding-left: 12px; }
+        .accordion-row.active .accordion-title-jp, .accordion-row:hover .accordion-title-jp { color: var(--text-dark); }
 
-        @media (hover: hover) {
-            .accordion-row:hover .accordion-num { color: var(--accent-blue); }
-            .accordion-row:hover .accordion-title-en { padding-left: 12px; }
-            .accordion-row:hover .accordion-title-jp { color: #111; }
-        }
-
+        /* ★ アコーディオン開閉のガタつきを無くす最新のGridレイアウト指定 */
         .accordion-details {
-            max-height: 0; opacity: 0; overflow: hidden;
-            /* margin-top のトランジションを削除し、レイアウト全体のガタつき(リフロー)を根減 */
-            transition: max-height 0.6s cubic-bezier(0, 1, 0, 1), opacity 0.5s ease;
+            display: grid; grid-template-rows: 0fr; opacity: 0;
+            transition: grid-template-rows 0.5s cubic-bezier(0, 1, 0, 1), opacity 0.4s ease;
         }
-        .accordion-row.active .accordion-details { max-height: 2000px; opacity: 1; }
-        
-        @media (hover: hover) {
-            .accordion-row:hover .accordion-details { max-height: 2000px; opacity: 1; }
+        .accordion-row.active .accordion-details, .accordion-row:hover .accordion-details {
+            grid-template-rows: 1fr; opacity: 1;
         }
-
         .accordion-inner-grid { 
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; padding-left: 100px; align-items: center; 
-            /* margin-top の代わりに内部要素 of padding で余白を固定。これにより開閉時のガタつきが消滅します */
-            padding-top: 32px; 
-            padding-bottom: 20px; 
+            overflow: hidden; /* Gridアニメーションに必須 */
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
+            padding: 32px 0 20px 100px; align-items: center; 
         }
-        
-        .job-detail-text { display: flex; flex-direction: column; gap: 24px; }
-        .accordion-desc-text { font-size: 15px; color: #555; line-height: 1.8; margin: 0; }
 
-        .accordion-appeal-box h4,
-        .accordion-mission-box h4 {
-            font-size: 12px; font-weight: 700; color: #111; letter-spacing: 0.15em;
-            margin: 0; margin-bottom: 10px; text-transform: uppercase; 
-            border-bottom: 2px solid var(--accent-blue);
-            display: inline-block; padding-bottom: 4px;
+        .job-detail-text { display: flex; flex-direction: column; gap: 24px; }
+        .accordion-mission-box h4, .accordion-appeal-box h4 {
+            font-size: 12px; font-weight: 700; letter-spacing: 0.15em; margin: 0 0 10px 0;
+            border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 4px;
         }
-        .accordion-appeal-box p,
-        .accordion-mission-box p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+        .accordion-mission-box p, .accordion-appeal-box p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin: 0; }
 
         .accordion-cta-btn {
-            display: inline-flex; align-items: center; text-decoration: none; color: #ffffff;
-            background-color: #111111; padding: 14px 32px; font-size: 12px; font-weight: 700;
+            display: inline-flex; align-items: center; color: #ffffff; background-color: var(--text-dark);
+            padding: 14px 32px; font-size: 12px; font-weight: 700; text-decoration: none;
             letter-spacing: 0.1em; align-self: flex-start; transition: all 0.3s ease;
-            position: relative; z-index: 10;
         }
         .accordion-cta-btn::after { content: '→'; margin-left: 10px; transition: transform 0.3s; }
         .accordion-cta-btn:hover { background-color: var(--accent-blue); } 
         .accordion-cta-btn:hover::after { transform: translateX(5px); }
-
         .job-multi-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 
         .job-cinematic-image { width: 100%; height: 260px; overflow: hidden; position: relative; }
-        .job-cinematic-image img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(70%); transition: filter 0.8s ease;
-        }
-        
-        .accordion-row.active .job-cinematic-image img { filter: grayscale(0%); }
-        
-        @media (hover: hover) {
-            .accordion-row:hover .job-cinematic-image img { filter: grayscale(0%); }
-        }
-
+        .job-cinematic-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 0.8s ease; }
+        .accordion-row.active .job-cinematic-image img, .accordion-row:hover .job-cinematic-image img { filter: grayscale(0%); }
         .mobile-job-image { display: none; }
 
-        /* 独立したインフォメーションカードとしての「その他の職種」案内セクション */
         .jobs-other-guidance {
-            margin: 60px 8% 80px 8%; /* 下部に80pxの余白を設け、セクション境界線（border-bottom）との重なりをスマートに防止 */
-            padding: 32px 40px;
-            border: 1px solid var(--border-color); /* 破線から上品な実線に変更 */
-            border-radius: 8px; /* 角丸を適用してアコーディオン最下部の線から完全に独立 */
-            background-color: #fafbfc; /* 背景にほんの少しトーンを当ててカードとしての存在感を確立 */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); /* 微細なソフトシャドウで浮かび上がらせる */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 30px;
-            box-sizing: border-box;
+            margin: 60px 8% 80px 8%; padding: 32px 40px; border: 1px solid var(--border-color);
+            border-radius: 8px; background-color: #fafbfc; display: flex; justify-content: space-between; align-items: center; gap: 30px;
         }
-        .other-guidance-text {
-            margin: 0;
-            font-size: 14px;
-            color: #555555;
-            line-height: 1.7;
-        }
+        .other-guidance-text { margin: 0; font-size: 14px; color: var(--text-muted); line-height: 1.7; }
         .other-guidance-text span {
-            display: block;
-            font-family: 'Bodoni Moda', serif;
-            font-size: 14px;
-            font-weight: 900;
-            letter-spacing: 0.15em;
-            color: #111111;
-            margin-bottom: 6px;
+            display: block; font-family: 'Bodoni Moda', serif; font-size: 14px;
+            font-weight: 900; letter-spacing: 0.15em; color: var(--text-dark); margin-bottom: 6px;
         }
         .other-guidance-link {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            color: #111111;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            border-bottom: 1.5px solid #111111;
-            padding-bottom: 3px;
-            white-space: nowrap;
-            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; color: var(--text-dark); font-size: 13px; font-weight: 700;
+            text-decoration: none; border-bottom: 1.5px solid var(--text-dark); padding-bottom: 3px; transition: all 0.3s ease; white-space: nowrap;
         }
-        .other-guidance-link::after {
-            content: '→';
-            margin-left: 8px;
-            transition: transform 0.3s;
-        }
-        .other-guidance-link:hover {
-            color: var(--accent-blue);
-            border-bottom-color: var(--accent-blue);
-        }
-        .other-guidance-link:hover::after {
-            transform: translateX(4px);
-        }
+        .other-guidance-link::after { content: '→'; margin-left: 8px; transition: transform 0.3s; }
+        .other-guidance-link:hover { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+        .other-guidance-link:hover::after { transform: translateX(4px); }
 
         /* =========================================
            6. カルチャーセクション
            ========================================= */
-        .culture { 
-            background-color: #ffffff; 
-            padding-bottom: 120px; 
-            /* 重複して二重の線に見えていたborder-top: 1px solid #f0f0f0; を完全に削除し、jobs-sectionのborder-bottomに一本化 */
-        }
-        .culture.container { padding-top: 120px; }
+        .culture { background-color: #ffffff; padding: 120px 8% 120px 8%; }
         .culture-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 120px; gap: 6%; }
         .culture-row.reverse { flex-direction: row-reverse; }
         .culture-row:last-child { margin-bottom: 0; }
         .culture-text { width: 38%; }
-        .culture-title { font-family: 'Bodoni Moda', serif; font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 24px; color: #111111; letter-spacing: 0.05em; line-height: 1.2; }
-        .culture-desc { font-size: 16px; color: #555555; line-height: 1.8; margin: 0; }
+        .culture-title { font-family: 'Bodoni Moda', serif; font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 24px; line-height: 1.2; }
+        .culture-desc { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin: 0; }
         
         .culture-images { width: 56%; display: grid; gap: 20px; }
-        
-        /* 01. SPONSORSHIP: 枠を小さくしてセクション全体をコンパクトに */
-        .culture-images.grid-2 { 
-            grid-template-columns: 1fr; 
-            grid-template-rows: auto auto; 
-            height: auto; 
-            gap: 24px; /* コピーライトが入る分、余白を調整 */
-        }
-        .culture-img-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; /* コピーライトを右寄せ */
-            width: 100%;
-        }
+        .culture-images.grid-2 { grid-template-columns: 1fr; gap: 24px; }
+        .culture-img-container { display: flex; flex-direction: column; align-items: flex-end; width: 100%; }
         .culture-images.grid-2 .culture-img-wrapper {
-            height: 180px; /* アスペクト比を解除し、高さを少し広げて画像を大きく表示 */
-            width: 100%;
-            background-color: #f5f5f5; /* カードのような背景色 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            box-sizing: border-box;
+            height: 180px; width: 100%; background-color: #f5f5f5;
+            display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;
         }
         .culture-images.grid-2 .culture-img-wrapper img {
-            width: 100%; 
-            height: 100%;
-            max-width: 340px; /* 画像が少し大きくなるように調整 */
-            object-fit: contain; /* 見切れないように全体を枠内に収める */
-            filter: grayscale(70%); 
-            transition: filter 1.5s ease;
+            width: 100%; height: 100%; max-width: 340px; object-fit: contain;
+            filter: grayscale(70%); transition: filter 1.5s ease;
         }
-        .culture-images.grid-2 .culture-img-wrapper:hover img { filter: grayscale(0%); }
-        .culture-images.grid-2 .culture-img-wrapper img.colorized { filter: grayscale(0%); }
-
-        /* コピーライト用テキストのスタイル */
-        .copyright-text {
-            font-size: 10px;
-            color: #888888;
-            letter-spacing: 0.05em;
-            font-family: sans-serif;
-            margin-top: 6px;
-        }
+        .culture-images.grid-2 .culture-img-wrapper:hover img, .culture-images.grid-2 .culture-img-wrapper img.colorized { filter: grayscale(0%); }
+        .copyright-text { font-size: 10px; color: #888; margin-top: 6px; font-family: sans-serif; }
         
-        /* 02. EVENTS: 画像3枚のバランス調整 (マラソンの横長画像を活かす新グリッドレイアウト) */
-        .culture-images.grid-3 { 
-            grid-template-columns: 1fr 1fr; 
-            grid-template-rows: 215px 260px; /* マラソン写真（下段）の高さをもうほんの少し広げて260pxに拡張 */
-            height: 495px; /* 総高さを215px + 260px + 20px(gap) = 495pxに最適化 */
-        }
-        .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 2 / 3; } /* マラソン（img-main）を下段全域（2行目の1〜3列）に広げ、横長を美しく格納 */
-        
+        .culture-images.grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: 215px 260px; height: 495px; }
+        .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 2 / 3; }
         .culture-img-wrapper { width: 100%; height: 100%; overflow: hidden; background-color: #f5f5f5; }
-        
-        /* EVENTS用の画像設定 */
-        .culture-images.grid-3 .culture-img-wrapper img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            filter: grayscale(70%); transition: filter 1.5s ease; 
-        }
-        .culture-images.grid-3 .culture-img-wrapper:hover img { filter: grayscale(0%); }
-        .culture-images.grid-3 .culture-img-wrapper img.colorized { filter: grayscale(0%); }
+        .culture-images.grid-3 .culture-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 1.5s ease; }
+        .culture-images.grid-3 .culture-img-wrapper:hover img, .culture-images.grid-3 .culture-img-wrapper img.colorized { filter: grayscale(0%); }
+        .culture-images.grid-3 .img-main img { object-position: center top; }
 
-        /* マラソン画像の頭が切れないよう上詰めに調整（object-position: center top） */
-        .culture-images.grid-3 .img-main img {
-            object-position: center top;
-        }
-
-        .culture-btn-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 60px;
-            flex-wrap: wrap;
-        }
+        .culture-btn-wrapper { display: flex; justify-content: center; gap: 20px; margin-top: 60px; flex-wrap: wrap; }
         .culture-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            background-color: #111111; color: #ffffff; text-decoration: none;
-            padding: 16px 48px; font-size: 13.5px; font-weight: 700;
-            letter-spacing: 0.12em; transition: all 0.4s ease; border: 1px solid #111111;
-            box-sizing: border-box;
+            display: inline-flex; align-items: center; justify-content: center; background-color: var(--text-dark); color: #ffffff; text-decoration: none;
+            padding: 16px 48px; font-size: 13.5px; font-weight: 700; letter-spacing: 0.12em; transition: all 0.3s ease; border: 1px solid var(--text-dark);
         }
-        .culture-btn::after { content: '→'; margin-left: 14px; transition: transform 0.4s; }
-        .culture-btn:hover { background-color: transparent; color: #111111; transform: translateY(-2px); }
+        .culture-btn::after { content: '→'; margin-left: 14px; transition: transform 0.3s; }
+        .culture-btn:hover { background-color: transparent; color: var(--text-dark); transform: translateY(-2px); }
         .culture-btn:hover::after { transform: translateX(6px); }
 
         /* =========================================
            7. 福利厚生・休日セクション
            ========================================= */
         .benefits-section { background-color: #ffffff; padding-bottom: 80px; border-top: 1px solid var(--border-color); }
-        .benefits-header {
-            max-width: 1240px; margin: 0 auto; padding: 80px 8% 0 8%;
-            box-sizing: border-box; display: flex; flex-direction: column; align-items: center;
-        }
-        .benefits-grid {
-            max-width: 1240px; margin: 40px auto 0 auto; padding: 0 8%;
-            box-sizing: border-box; display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
-        }
-        .benefits-block { background-color: #ffffff; border-top: 2px solid #111111; padding: 24px 0 0 0; box-sizing: border-box; }
-        .benefits-block h3 {
-            font-size: 22px; font-weight: 900; color: #111; margin: 0 0 24px 0;
-            letter-spacing: 0.05em; font-family: 'Bodoni Moda', 'Noto Sans JP', serif;
-        }
+        .benefits-header { max-width: 1240px; margin: 0 auto; padding: 80px 8% 0 8%; display: flex; flex-direction: column; align-items: center; }
+        .benefits-grid { max-width: 1240px; margin: 40px auto 0 auto; padding: 0 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .benefits-block { border-top: 2px solid var(--text-dark); padding: 24px 0 0 0; }
+        .benefits-block h3 { font-family: 'Bodoni Moda', 'Noto Sans JP', serif; font-size: 22px; font-weight: 900; margin: 0 0 24px 0; }
         .benefits-list { list-style: none; padding: 0; margin: 0 0 24px 0; }
-        .benefits-list li {
-            font-size: 15px; color: #333; padding: 10px 0; border-bottom: 1px solid #f0f0f0;
-            position: relative; padding-left: 20px; line-height: 1.6; letter-spacing: 0.05em;
-        }
+        .benefits-list li { font-size: 15px; padding: 10px 0 10px 20px; border-bottom: 1px solid #f0f0f0; position: relative; line-height: 1.6; }
         .benefits-list li:last-child { border-bottom: none; }
-        .benefits-list li::before {
-            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-            width: 8px; height: 1px; background-color: #111111;
-        }
+        .benefits-list li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 8px; height: 1px; background-color: var(--text-dark); }
         .benefits-list li a { color: var(--accent-blue); text-decoration: none; transition: opacity 0.3s; font-weight: bold; }
         .benefits-list li a:hover { opacity: 0.7; text-decoration: underline; }
         .benefits-note { font-size: 12px; color: #777; line-height: 1.8; margin: 0; }
@@ -514,126 +312,85 @@
         /* =========================================
            8. オフィス紹介セクション
            ========================================= */
-        .office-section { background-color: #ffffff; padding-bottom: 100px; border-top: 1px solid var(--border-color); overflow: hidden; }
-        .office-header { max-width: 1240px; margin: 0 auto; padding: 120px 8% 60px 8%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
-        
-        /* 左右矢印配置用のコンテナラッパー */
-        .office-carousel-wrapper {
-            position: relative;
-            width: 100%;
-        }
+        .office-section { padding-bottom: 100px; border-top: 1px solid var(--border-color); overflow: hidden; }
+        .office-header { padding: 120px 8% 60px 8%; text-align: center; }
+        .office-carousel-wrapper { position: relative; width: 100%; }
 
-        /* PCでのみ表示される洗練された左右ナビゲーションボタン */
         .office-nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 56px;
-            height: 56px;
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            padding: 0;
-            color: #111111;
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 56px; height: 56px; border: 1px solid var(--border-color); border-radius: 50%; background-color: #ffffff;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10;
+            transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
         }
+        .office-nav-btn:hover { background-color: var(--text-dark); color: #ffffff; border-color: var(--text-dark); }
+        .office-nav-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+        .office-nav-btn.prev { left: max(3%, calc(50vw - 600px)); }
+        .office-nav-btn.next { right: max(3%, calc(50vw - 600px)); }
 
-        .office-nav-btn:hover {
-            background-color: #111111;
-            border-color: #111111;
-            color: #ffffff;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        .office-nav-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.5;
-            transition: stroke 0.3s;
-        }
-
-        .office-nav-btn.prev {
-            left: max(3%, calc(50vw - 600px));
-        }
-
-        .office-nav-btn.next {
-            right: max(3%, calc(50vw - 600px));
-        }
-
-        /* カルーセルのドラッグスクロール（グラブ）対応＆テキストの意図せぬ選択防止 */
         .office-carousel {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 40px;
-            padding: 0 max(8%, calc(50vw - 500px)); scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 40px;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+            padding: 0 max(8%, calc(50vw - 500px)) 40px; scrollbar-width: none; -ms-overflow-style: none; user-select: none;
         }
         .office-carousel::-webkit-scrollbar { display: none; }
-        
         .office-slide {
             flex: 0 0 85vw; max-width: 1000px; scroll-snap-align: center; display: flex;
-            background-color: #ffffff; border: 1px solid var(--border-color);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.03); transition: box-shadow 0.3s ease; height: auto;
+            border: 1px solid var(--border-color); box-shadow: 0 15px 35px rgba(0,0,0,0.03); transition: box-shadow 0.3s ease;
         }
         .office-slide:hover { box-shadow: 0 25px 50px rgba(0,0,0,0.08); }
         
-        .office-slide-img { width: 55%; height: 500px; overflow: hidden; background-color: #f5f5f5; }
+        .office-slide-img { width: 55%; height: 500px; background-color: #f5f5f5; }
         .office-slide-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 1.5s ease; }
-        .office-slide-img:hover img { filter: grayscale(0%); }
-        .office-slide-img img.colorized { filter: grayscale(0%); }
+        .office-slide-img:hover img, .office-slide-img img.colorized { filter: grayscale(0%); }
         
-        .office-slide-info { width: 45%; padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
-        .office-slide-info h3 { font-family: 'Bodoni Moda', serif; font-size: 32px; font-weight: 900; margin: 0 0 16px 0; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 8px; align-self: flex-start; letter-spacing: 0.05em; color: #111; }
-        .office-slide-info h4 { font-size: 15px; font-weight: 700; margin: 0 0 20px 0; color: #111; line-height: 1.6; }
-        .office-slide-info p { font-size: 14.5px; color: #555; line-height: 1.8; margin: 0 0 32px 0; flex-grow: 1; }
+        .office-slide-info { width: 45%; padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; }
+        .office-slide-info h3 { font-family: 'Bodoni Moda', serif; font-size: 32px; font-weight: 900; margin: 0 0 16px 0; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 8px; align-self: flex-start; }
+        .office-slide-info h4 { font-size: 15px; margin: 0 0 20px 0; line-height: 1.6; }
+        .office-slide-info p { font-size: 14.5px; color: var(--text-muted); line-height: 1.8; margin: 0 0 32px 0; flex-grow: 1; }
         .office-access { margin-top: auto; padding-top: 24px; border-top: 1px solid #f0f0f0; }
-        .office-access p { font-size: 12.5px; color: #777; line-height: 1.6; margin: 0; font-feature-settings: "palt"; }
-        .office-btn-wrapper { text-align: left; margin-top: 16px; }
-        .office-btn { display: inline-flex; align-items: center; justify-content: center; background-color: #111111; color: #ffffff; text-decoration: none; padding: 16px 48px; font-size: 13.5px; font-weight: 700; letter-spacing: 0.12em; transition: all 0.4s ease; }
-        .office-btn::after { content: '→'; margin-left: 14px; transition: transform 0.4s; }
+        .office-access p { font-size: 12.5px; color: #777; line-height: 1.6; margin: 0; }
+        .office-btn-wrapper { margin-top: 16px; }
+        .office-btn {
+            display: inline-flex; align-items: center; justify-content: center; background-color: var(--text-dark); color: #ffffff; text-decoration: none;
+            padding: 16px 48px; font-size: 13.5px; font-weight: 700; transition: all 0.3s ease;
+        }
+        .office-btn::after { content: '→'; margin-left: 14px; transition: transform 0.3s; }
         .office-btn:hover { background-color: var(--accent-blue); transform: translateY(-2px); }
         .office-btn:hover::after { transform: translateX(6px); }
 
         /* =========================================
            9. CONTACT & FOOTER
            ========================================= */
-        .contact-section { background-color: #111111; padding: 80px 0 40px 0; text-align: center; position: relative; }
-        .contact-container { max-width: 1240px; margin: 0 auto; padding: 0 8%; box-sizing: border-box; }
+        .contact-section { background-color: var(--text-dark); padding: 80px 0 40px 0; text-align: center; position: relative; }
+        .contact-container { max-width: 1240px; margin: 0 auto; padding: 0 8%; }
         .contact-card-box { border: 1px solid rgba(255, 255, 255, 0.1); padding: 80px 60px; }
-        .contact-section .contact-tag-eng { font-family: 'Bodoni Moda', serif; font-size: clamp(36px, 6vw, 54px); font-weight: 900; letter-spacing: 0.25em; color: #ffffff; text-transform: uppercase; margin: 0 0 8px 0; line-height: 1; text-indent: 0.25em; }
-        .contact-section .contact-tag-jp { font-size: 11px; font-weight: 700; color: #888888; letter-spacing: 0.3em; margin-bottom: 24px; text-indent: 0.3em; display: flex; flex-direction: column; align-items: center; }
-        .contact-section .contact-tag-jp::after { content: ''; display: block; width: 24px; height: 2px; background-color: var(--accent-blue); margin-top: 16px; }
-        .contact-desc { font-size: 15px; color: #bbbbbb; line-height: 1.8; margin: 0 0 40px 0; letter-spacing: 0.06em; }
-        .contact-btn { display: inline-flex; align-items: center; justify-content: center; background-color: #ffffff; color: #111111; text-decoration: none; padding: 18px 56px; font-size: 14.5px; font-weight: 700; letter-spacing: 0.12em; transition: all 0.4s ease; border: 1px solid transparent; }
-        .contact-btn::after { content: '→'; margin-left: 14px; transition: transform 0.4s; }
+        .contact-tag-eng { font-family: 'Bodoni Moda', serif; font-size: clamp(36px, 6vw, 54px); font-weight: 900; letter-spacing: 0.25em; color: #ffffff; margin: 0 0 8px 0; }
+        .contact-tag-jp { font-size: 11px; font-weight: 700; color: #888; letter-spacing: 0.3em; margin-bottom: 24px; display: flex; flex-direction: column; align-items: center; }
+        .contact-tag-jp::after { content: ''; display: block; width: 24px; height: 2px; background-color: var(--accent-blue); margin-top: 16px; }
+        .contact-desc { font-size: 15px; color: #bbb; line-height: 1.8; margin: 0 0 40px 0; }
+        
+        .contact-btn {
+            display: inline-flex; align-items: center; background-color: #ffffff; color: var(--text-dark); text-decoration: none;
+            padding: 18px 56px; font-size: 14.5px; font-weight: 700; transition: all 0.3s ease; border: 1px solid transparent;
+        }
+        .contact-btn::after { content: '→'; margin-left: 14px; transition: transform 0.3s; }
         .contact-btn:hover { background-color: transparent; color: #ffffff; border-color: #ffffff; transform: translateY(-2px); }
         .contact-btn:hover::after { transform: translateX(6px); }
         
-        .site-footer { padding-top: 40px; display: flex; justify-content: center; align-items: center; }
-        .site-footer p { font-size: 11px; color: #555555; margin: 0; letter-spacing: 0.08em; }
+        .site-footer { padding-top: 40px; display: flex; justify-content: center; }
+        .site-footer p { font-size: 11px; color: #555; margin: 0; }
         
-        .footer-scsk-logo { 
-            position: absolute; 
-            bottom: 24px; 
-            right: 32px; 
-            width: clamp(100px, 12vw, 140px);
-            opacity: 0.8; 
-            transition: opacity 0.3s; 
-            display: block;
-        }
+        .footer-scsk-logo { position: absolute; bottom: 24px; right: 32px; width: clamp(100px, 12vw, 140px); opacity: 0.8; transition: opacity 0.3s; }
         .footer-scsk-logo:hover { opacity: 1; }
-        .footer-scsk-logo img { width: 100%; height: auto; display: block; }
+        .footer-scsk-logo img { width: 100%; height: auto; }
 
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           10. レスポンシブ対応 (Tablet & Mobile)
+           ========================================= */
+        @media (max-width: 1024px) {
+            .office-nav-btn { display: none !important; }
+        }
 
         @media (max-width: 992px) {
             .accordion-inner-grid { grid-template-columns: 1fr; gap: 32px; padding-left: 0; }
@@ -641,122 +398,63 @@
             .culture-text, .culture-images { width: 100%; }
         }
 
-        /* =========================================
-           10. スマホ対応 (Responsive / メニュー非表示＆ロゴ中央揃え)
-           ========================================= */
         @media (max-width: 768px) {
             .container { padding: 60px 5%; }
             .pc-only { display: none; }
             .sp-only { display: inline; }
             
-            /* ヒーロー全体の中央揃え */
-            .hero { flex-direction: column; justify-content: center; align-items: center; padding: 40px 8%; text-align: center; }
-            /* スマホ時：テキスト全体の位置を「1文字分」ほど上へずらすために transform: translateY(-1em); を付与 */
-            .hero-content { max-width: 100%; align-items: center; text-align: center; transform: translateY(-1em); }
-            
-            /* --- アイコンロゴと「RECRUITMENT」のズレを綺麗に中央揃えに修正 --- */
-            .hero-logo { 
-                width: 100%; 
-                max-width: 200px;
-                display: flex; 
-                flex-direction: column; 
-                align-items: center; 
-                margin: 0 auto 24px auto; 
-            }
-            .hero-logo img { width: 120px; height: auto; margin: 0 auto; }
-            .hero-logo-sub { 
-                text-align: center;
-                letter-spacing: 0.5em; /* 文字間隔を広げる */
-                text-indent: 0.5em; /* 広げた分のズレを相殺して完全な中央に */
-                margin-top: 12px;
-            }
-            /* ----------------------------------------------------------------- */
-
+            /* HERO */
+            .hero { flex-direction: column; justify-content: center; text-align: center; padding: 40px 8%; }
+            .hero-content { max-width: 100%; align-items: center; transform: translateY(-1em); }
+            .hero-logo { width: 100%; max-width: 200px; display: flex; flex-direction: column; align-items: center; margin: 0 auto 24px auto; }
+            .hero-logo img { width: 120px; margin: 0 auto; }
+            .hero-logo-sub { text-align: center; letter-spacing: 0.5em; text-indent: 0.5em; margin-top: 12px; }
             .hero-title { align-items: center; }
             .hero-tagline { font-size: clamp(24px, 6vw, 36px); text-align: center; }
+            .hero-keyline { border-left: none; border-top: 2px solid var(--accent-blue); padding: 16px 0 0 0; margin: 20px auto 0 auto; text-align: center; }
             
-            /* 装飾線をスマホ用に上部横線に変更して中央揃え */
-            .hero-keyline { 
-                border-left: none; 
-                border-top: 2px solid var(--accent-blue); 
-                padding-left: 0; 
-                padding-top: 16px; 
-                margin: 20px auto 0 auto; 
-                text-align: center; 
-                display: inline-block; 
-            }
+            /* NAV */
+            .main-nav, .nav-placeholder { display: none !important; }
             
-            /* --- スマホ時：ナビゲーションメニューだけを完全に非表示に --- */
-            .main-nav, .nav-placeholder {
-                display: none !important;
-            }
-            /* ------------------------------------------------------------- */
-            
+            /* BUSINESS */
             .business-concept { font-size: clamp(16px, 5vw, 24px) !important; margin-bottom: 24px; white-space: normal; }
             .story-row, .story-row:nth-child(even) { flex-direction: column; gap: 24px; margin-bottom: 50px; }
-            .story-row:last-child { margin-bottom: 0; }
-            .story-text, .story-image-wrapper { max-width: 100%; width: 100%; flex: none; }
+            .story-text, .story-image-wrapper { max-width: 100%; width: 100%; }
             .story-image-wrapper { height: 200px; order: -1; }
             
+            /* JOBS */
             .jobs-section { padding-top: 60px; padding-bottom: 0; }
-            .accordion-row { padding: 32px 5%; }
-            .accordion-row.active { padding: 32px 5%; }
+            .accordion-row, .accordion-row.active { padding: 32px 5%; }
             .accordion-headline-wrap { flex-wrap: wrap; }
             .accordion-num { font-size: 24px; width: 40px; margin-right: 16px; }
             .accordion-title-en { font-size: 22px; }
             .accordion-title-jp { width: 100%; margin-left: 56px; margin-top: 8px; font-size: 13px; }
             .accordion-inner-grid { padding-left: 0; }
-            
-            /* --- スマホ時のアコーディオン最大高さを増やしてボタンの途切れを防止 --- */
-            .accordion-row.active .accordion-details { max-height: 2000px; }
-            /* ---------------------------------------------------------------------- */
-            
             .job-cinematic-image { display: none; } 
-            
             .mobile-job-image { display: block; width: 100%; height: 180px; overflow: hidden; margin-top: 16px; }
             .mobile-job-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%); transition: filter 0.3s ease; }
             .accordion-row.active .mobile-job-image img { filter: grayscale(0%); }
-
-            /* スマホ時における「その他の職種」案内セクション調整 */
-            .jobs-other-guidance {
-                margin: 40px 5% 50px 5%; /* スマホでも下部に50pxの余白を設けて境界線と離す */
-                padding: 24px 20px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-                border-radius: 6px; /* スマホでもカードとしての角丸を適用 */
-            }
-            .other-guidance-text {
-                font-size: 13px;
-            }
-            .other-guidance-link {
-                align-self: flex-end;
-            }
+            .jobs-other-guidance { margin: 40px 5% 50px 5%; padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 20px; border-radius: 6px; }
+            .other-guidance-text { font-size: 13px; }
+            .other-guidance-link { align-self: flex-end; }
             
+            /* CULTURE */
             .culture.container { padding-top: 60px; }
-            
-            /* スマホ時のカルチャー画像バランス調整 */
             .culture-images.grid-2 { height: auto; gap: 20px; }
             .culture-images.grid-2 .culture-img-wrapper { height: 140px; padding: 12px; }
             .culture-images.grid-2 .culture-img-wrapper img { max-width: 240px; }
-            
-            /* スマホ時のEVENTS画像バランス調整（マラソンを上段にワイド展開） */
-            .culture-images.grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; height: auto; gap: 12px; }
-            .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 200px; } /* スマホ版のマラソン写真高さも200pxに拡張して見やすさを向上 */
+            .culture-images.grid-3 { grid-template-rows: auto auto; height: auto; gap: 12px; }
+            .culture-images.grid-3 .img-main { grid-column: 1 / 3; grid-row: 1 / 2; height: 200px; }
             .culture-images.grid-3 .img-sub { height: 140px; }
-
-            .culture-btn-wrapper {
-                flex-direction: column;
-                align-items: center;
-                gap: 16px;
-                margin-top: 40px;
-            }
+            .culture-btn-wrapper { flex-direction: column; align-items: center; gap: 16px; margin-top: 40px; }
             .culture-btn { width: 100%; padding: 12px 0; max-width: 280px; }
 
+            /* BENEFITS */
             .benefits-header { padding: 60px 5% 0 5%; }
             .benefits-grid { grid-template-columns: 1fr; gap: 40px; padding: 0 5%; margin-top: 30px; }
             .benefits-block { padding: 20px 0 0 0; }
 
+            /* OFFICE */
             .office-header { padding: 60px 5% 40px 5%; }
             .office-carousel { padding: 0 5%; gap: 20px; }
             .office-slide { flex: 0 0 90vw; flex-direction: column; }
@@ -767,26 +465,13 @@
             .office-slide-info h4 { font-size: 14px; margin-bottom: 16px; }
             .office-slide-info p { font-size: 13.5px; margin-bottom: 24px; }
             
+            /* CONTACT */
             .contact-section { padding: 50px 0 30px 0; }
             .contact-card-box { padding: 40px 24px; }
-            .contact-section .contact-tag-eng { font-size: 32px; }
+            .contact-tag-eng { font-size: 32px; }
             .contact-btn { width: 100%; padding: 12px 0; max-width: 260px; }
-            
             .site-footer { padding-top: 30px; flex-direction: column; }
-            .footer-scsk-logo { 
-                position: relative;
-                bottom: auto;
-                right: auto;
-                margin: 20px auto 0 auto;
-                width: 90px; 
-            }
-        }
-
-        /* 1024px以下のタブレット・タッチデバイスではPC用矢印ボタンを非表示にし、ネイティブなスワイプ操作に最適化 */
-        @media (max-width: 1024px) {
-            .office-nav-btn {
-                display: none !important;
-            }
+            .footer-scsk-logo { position: relative; margin: 20px auto 0 auto; width: 90px; }
         }
     </style>
 </head>
@@ -822,6 +507,7 @@
             <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSe3ourzAaRgRIV6fMVq2dziMm5qKey4Iell5d3bjStALeWT5A/viewform" target="_blank" rel="noopener noreferrer">CONTACT</a></li>
         </ul>
     </nav>
+    <div class="nav-placeholder"></div>
 
     <!-- ビジネスセクション -->
     <section id="business" class="business container">
@@ -839,7 +525,7 @@
                 <h3 class="story-title">企画から販売を完結させる<br>「スケール」</h3>
                 <p class="story-body">
                     自分が関わったプロダクトが、毎日何十万人ものユーザーの手に渡っていく――。そのダイナミックなスケール感を、日々の仕事の中でリアルに実感できます。<br>
-                    私たちの強みは、「システム開発」「Webデザイン」「Webマーケティング」「写真撮影」「倉庫運営」「カスタマーサポート」までを一貫して自社で手がけていることです。
+                    私たちの強みは、「システム開発」「WEBデザイン」「WEBマーケティング」「写真撮影」「倉庫運営」「カスタマーサポート」までを一貫して自社で手がけていることです。
                 </p>
             </div>
             <div class="story-image-wrapper">
@@ -884,11 +570,11 @@
                             <div class="job-detail-text">
                                 <div class="accordion-mission-box">
                                     <h4>MISSION</h4>
-                                    <p class="accordion-desc-text">自社ECシステム＆サービスの開発から提供までを一気通貫で行います。インフラからフロントエンドまで、領域を限定しないフルスタックな働き方をチームで体現します。</p>
+                                    <p>自社ECシステム＆サービスの開発から提供までを一気通貫で行います。インフラからフロントエンドまで、領域を限定しないフルスタックな働き方をチームで体現します。</p>
                                 </div>
                                 <div class="accordion-appeal-box">
                                     <h4>APPEAL</h4>
-                                    <p>単にシステムを作るだけでなく、その技術がビジネスにどう活きているかを大切にしています。日々の開発が、サービスの売上やユーザー体験の向上に直接つながっている手応えを、身近に実感できるやりがいがあります。</p>
+                                    <p>単にシステムを作るだけでなく、その技術がビジネスにどう活きているかを大切にしています。日々の開発が、サービスの売上やユーザー体験の向上に直接つながっている手応えを、身近に感じることができます。</p>
                                 </div>
                                 <div class="mobile-job-image">
                                     <img src="images/job_engineer.jpg" alt="ITエンジニア">
@@ -914,7 +600,7 @@
                             <div class="job-detail-text">
                                 <div class="accordion-mission-box">
                                     <h4>MISSION</h4>
-                                    <p class="accordion-desc-text">オンラインストアのバナーや特集ページの制作、サイト更新、施策を円滑に進めるための進行管理といった日々の運用を主軸に、UI/UXデザインやデータ分析に基づく一歩踏み込んだ改善提案まで、幅広いプロセスに携わります。</p>
+                                    <p>オンラインストアのバナーや特集ページの制作、サイト更新、施策を円滑に進めるための進行管理といった日々の運用を主軸に、UI/UXデザインやデータ分析に基づく一歩踏み込んだ改善提案まで、幅広いプロセスに携わります。</p>
                                 </div>
                                 <div class="accordion-appeal-box">
                                     <h4>APPEAL</h4>
@@ -944,7 +630,7 @@
                             <div class="job-detail-text">
                                 <div class="accordion-mission-box">
                                     <h4>MISSION</h4>
-                                    <p class="accordion-desc-text">担当ブランドのEC売上・利益の最大化に向け、広告とサイトの双方からデータを分析し、運用戦略・予算配分・改善施策の立案・実行を担います。</p>
+                                    <p>担当ブランドのEC売上・利益の最大化に向け、広告とサイトの双方からデータを分析し、運用戦略・予算配分・改善施策の立案・実行を担います。</p>
                                 </div>
                                 <div class="accordion-appeal-box">
                                     <h4>APPEAL</h4>
@@ -974,7 +660,7 @@
                             <div class="job-detail-text">
                                 <div class="accordion-mission-box">
                                     <h4>MISSION</h4>
-                                    <p class="accordion-desc-text">首都圏に多くの撮影スタジオを設置。各分野のプロのスタッフが、企画、スタイリング、商品・人物・動画撮影、画像加工、動画編集までトータルサポートします。</p>
+                                    <p>首都圏に多くの撮影スタジオを設置。各分野のプロのスタッフが、企画、スタイリング、商品・人物・動画撮影、画像加工、動画編集までトータルサポートします。</p>
                                 </div>
                                 <div class="accordion-appeal-box">
                                     <h4>APPEAL</h4>
@@ -1000,7 +686,7 @@
 
             </div> <!-- jobs-interactive-accordion -->
 
-            <!-- その他の職種への案内エリア（目立たせすぎない洗練されたデザイン） -->
+            <!-- その他の職種への案内エリア -->
             <div class="jobs-other-guidance">
                 <p class="other-guidance-text">
                     <span>OTHER POSITIONS</span>
@@ -1011,7 +697,7 @@
                 </a>
             </div>
 
-        </div> <!-- jobs-full-container -->
+        </div>
     </section>
 
     <!-- カルチャーセクション -->
@@ -1056,14 +742,12 @@
                 </p>
             </div>
             <div class="culture-images grid-3">
-                <!-- 上段に横幅を半分ずつ分け合う形でバスケとハロウィンを整列 -->
                 <div class="culture-img-wrapper img-sub">
                     <img src="images/culture_basket.jpg" alt="バスケ">
                 </div>
                 <div class="culture-img-wrapper img-sub">
                     <img src="images/culture_halloween.jpg" alt="ハロウィン">
                 </div>
-                <!-- 下段全域を贅沢に使用し、横長写真をそのままの形で綺麗にアライメント -->
                 <div class="culture-img-wrapper img-main">
                     <img src="images/culture_marason.jpg" alt="マラソン">
                 </div>
@@ -1131,19 +815,12 @@
             <h2 class="business-concept" style="margin-bottom: 0;">拠点紹介</h2>
         </div>
 
-        <!-- 左右ナビゲーションを配置するためのラッパー -->
         <div class="office-carousel-wrapper">
-            
-            <!-- スリークな丸型ナビゲーションボタン（PCのみ表示） -->
             <button class="office-nav-btn prev" aria-label="前のオフィスを見る" type="button">
-                <svg viewBox="0 0 24 24">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
             <button class="office-nav-btn next" aria-label="次のオフィスを見る" type="button">
-                <svg viewBox="0 0 24 24">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
+                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
 
             <div class="office-carousel">
@@ -1219,13 +896,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // =========================================
-            // A. 背景のJS 制御スライダー (フェード遅れ & 白飛びの完全解決)
+            // 1. ヒーロー背景スライダー
             // =========================================
             const slides = document.querySelectorAll('.bg-slide');
             if (slides.length > 0) {
                 let currentSlide = 0;
                 slides[currentSlide].classList.add('active');
-
                 setInterval(() => {
                     slides[currentSlide].classList.remove('active');
                     currentSlide = (currentSlide + 1) % slides.length;
@@ -1234,14 +910,12 @@
             }
 
             // =========================================
-            // B. アコーディオンの開閉制御 (PCホバー / スマホクリック仕様)
+            // 2. アコーディオン開閉 (PCホバー / スマホクリック)
             // =========================================
             const accordionRows = document.querySelectorAll(".accordion-row");
-
             accordionRows.forEach(row => {
                 row.addEventListener("click", function(e) {
                     if (e.target.closest('a')) return;
-                    
                     if (window.innerWidth <= 768) {
                         if (row.classList.contains("active")) {
                             row.classList.remove("active");
@@ -1254,217 +928,115 @@
             });
 
             // =========================================
-            // C. ヘッダーのスクロール制御 (PCのみ動作)
+            // 3. ヘッダーのスクロール制御 (PCのみ)
             // =========================================
             const nav = document.querySelector('.main-nav');
-            const navPlaceholder = document.querySelector('.nav-placeholder') || document.createElement('div');
-            if (!navPlaceholder.parentNode) {
-                navPlaceholder.className = 'nav-placeholder';
-                nav.parentNode.insertBefore(navPlaceholder, nav);
-            }
-
+            const navPlaceholder = document.querySelector('.nav-placeholder');
             let lastScrollY = window.scrollY;
-            let navOffsetTop = nav.offsetTop;
-
-            window.addEventListener('resize', () => {
-                if (!nav.classList.contains('is-fixed')) {
-                    navOffsetTop = nav.offsetTop;
-                }
-            });
 
             window.addEventListener('scroll', () => {
                 if (window.innerWidth <= 768) return;
-
                 const currentScrollY = window.scrollY;
-                if (currentScrollY > navOffsetTop) {
+                const heroHeight = document.querySelector('.hero').offsetHeight;
+
+                // ヒーローセクションを過ぎたら固定開始
+                if (currentScrollY > heroHeight - 100) {
                     if (!nav.classList.contains('is-fixed')) {
                         nav.classList.add('is-fixed');
                         navPlaceholder.style.display = 'block';
                         navPlaceholder.style.height = nav.offsetHeight + 'px';
                     }
-                    if (currentScrollY > lastScrollY && currentScrollY > navOffsetTop + 20) {
-                        nav.classList.add('is-hidden');
+                    if (currentScrollY > lastScrollY && currentScrollY > heroHeight) {
+                        nav.classList.add('is-hidden'); // 下スクロールで隠す
                     } else if (currentScrollY < lastScrollY) {
-                        nav.classList.remove('is-hidden');
+                        nav.classList.remove('is-hidden'); // 上スクロールで表示
                     }
                 } else {
-                    nav.classList.remove('is-fixed');
-                    nav.classList.remove('is-hidden');
+                    nav.classList.remove('is-fixed', 'is-hidden');
                     navPlaceholder.style.display = 'none';
                 }
                 lastScrollY = currentScrollY;
             });
 
             // =========================================
-            // D. スクロールでモノクロからカラーに変化させる IntersectionObserver
+            // 4. スクロールで画像をカラーに (IntersectionObserver)
             // =========================================
-            const colorizeOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.3 
-            };
-
             const colorizeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     const target = entry.target;
-                    
                     if (entry.isIntersecting) {
-                        if (target._colorizeTimer) {
-                            clearTimeout(target._colorizeTimer);
-                        }
-                        
-                        target._colorizeTimer = setTimeout(() => {
-                            target.classList.add('colorized');
-                        }, 800);
-                        
+                        if (target._colorizeTimer) clearTimeout(target._colorizeTimer);
+                        target._colorizeTimer = setTimeout(() => { target.classList.add('colorized'); }, 800);
                     } else {
-                        if (target._colorizeTimer) {
-                            clearTimeout(target._colorizeTimer);
-                            target._colorizeTimer = null;
-                        }
+                        if (target._colorizeTimer) clearTimeout(target._colorizeTimer);
                         target.classList.remove('colorized');
                     }
                 });
-            }, colorizeOptions);
+            }, { root: null, rootMargin: '0px', threshold: 0.3 });
 
-            const colorizeTargets = document.querySelectorAll('.story-image, .culture-img-wrapper img, .office-slide-img img');
-            colorizeTargets.forEach(img => {
+            document.querySelectorAll('.story-image, .culture-img-wrapper img, .office-slide-img img').forEach(img => {
                 colorizeObserver.observe(img);
             });
 
             // =========================================
-            // E. 拠点紹介（OFFICES）のデフォルト表示位置をSAPPORO（2番目）にフォーカス
-            // =========================================
-            const officeCarousel = document.querySelector('.office-carousel');
-            const officeSlides = document.querySelectorAll('.office-carousel .office-slide');
-            if (officeCarousel && officeSlides.length > 1) {
-                const sapporoSlide = officeSlides[1]; 
-                
-                const adjustCarouselPosition = () => {
-                    const carouselHalf = officeCarousel.clientWidth / 2;
-                    const slideHalf = sapporoSlide.clientWidth / 2;
-                    const targetScrollLeft = sapporoSlide.offsetLeft - carouselHalf + slideHalf;
-                    
-                    officeCarousel.scrollLeft = targetScrollLeft;
-                };
-
-                setTimeout(adjustCarouselPosition, 200);
-
-                window.addEventListener('resize', adjustInitialScroll);
-                
-                function adjustInitialScroll() {
-                    if (window.innerWidth > 768) {
-                        const carouselHalfWidth = officeCarousel.clientWidth / 2;
-                        const slideHalfWidth = sapporoSlide.clientWidth / 2;
-                        officeCarousel.scrollLeft = sapporoSlide.offsetLeft - carouselHalfWidth + slideHalfWidth;
-                    }
-                }
-            }
-
-            // =========================================
-            // F. 拠点紹介（OFFICES）のデスクトップ向け操作拡張（ドラッグ＆矢印ボタン）
+            // 5. オフィスカルーセルの制御
             // =========================================
             const carousel = document.querySelector('.office-carousel');
             const prevBtn = document.querySelector('.office-nav-btn.prev');
             const nextBtn = document.querySelector('.office-nav-btn.next');
 
             if (carousel) {
-                let isDown = false;
-                let startX;
-                let scrollLeft;
-                let isDragging = false;
+                // 初期位置をSAPPORO(2枚目)に合わせる
+                const slides = carousel.querySelectorAll('.office-slide');
+                if (slides.length > 1) {
+                    const adjustPosition = () => {
+                        if (window.innerWidth > 768) {
+                            const halfCarousel = carousel.clientWidth / 2;
+                            const halfSlide = slides[1].clientWidth / 2;
+                            carousel.scrollLeft = slides[1].offsetLeft - halfCarousel + halfSlide;
+                        }
+                    };
+                    setTimeout(adjustPosition, 200);
+                    window.addEventListener('resize', adjustPosition);
+                }
 
-                // 1. マウスドラッグによるグラブスクロール制御
+                // マウスドラッグ操作
+                let isDown = false, startX, scrollLeft, isDragging = false;
                 carousel.addEventListener('mousedown', (e) => {
-                    isDown = true;
-                    carousel.classList.add('active');
-                    startX = e.pageX - carousel.offsetLeft;
-                    scrollLeft = carousel.scrollLeft;
-                    isDragging = false;
+                    isDown = true; startX = e.pageX - carousel.offsetLeft; scrollLeft = carousel.scrollLeft; isDragging = false;
                 });
-
-                carousel.addEventListener('mouseleave', () => {
-                    isDown = false;
-                    carousel.classList.remove('active');
-                });
-
-                carousel.addEventListener('mouseup', () => {
-                    isDown = false;
-                    carousel.classList.remove('active');
-                });
-
+                carousel.addEventListener('mouseleave', () => isDown = false);
+                carousel.addEventListener('mouseup', () => isDown = false);
                 carousel.addEventListener('mousemove', (e) => {
                     if (!isDown) return;
                     e.preventDefault();
                     const x = e.pageX - carousel.offsetLeft;
-                    const walk = (x - startX) * 1.5; // ドラッグスピードの感度調整
-                    carousel.scrollLeft = scrollLeft - walk;
+                    carousel.scrollLeft = scrollLeft - (x - startX) * 1.5;
                     isDragging = true;
                 });
-
-                // ドラッグ移動中の誤ったクリック発火を防止
-                const links = carousel.querySelectorAll('a');
-                links.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        if (isDragging) {
-                            e.preventDefault();
-                        }
-                    });
+                carousel.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => { if (isDragging) e.preventDefault(); });
                 });
 
-                // 2. 左右矢印ボタンのクリック制御
+                // 矢印ボタン操作
                 if (prevBtn && nextBtn) {
-                    const getScrollAmount = () => {
-                        // カルーセルの表示幅の80%またはスライド1枚分をスクロール距離とする
+                    const getScrollDist = () => {
                         const firstSlide = carousel.querySelector('.office-slide');
-                        if (firstSlide) {
-                            return firstSlide.clientWidth + 40; // スライド幅 + gap
-                        }
-                        return carousel.clientWidth * 0.8;
+                        return firstSlide ? firstSlide.clientWidth + 40 : carousel.clientWidth * 0.8;
                     };
+                    prevBtn.addEventListener('click', () => carousel.scrollBy({ left: -getScrollDist(), behavior: 'smooth' }));
+                    nextBtn.addEventListener('click', () => carousel.scrollBy({ left: getScrollDist(), behavior: 'smooth' }));
 
-                    prevBtn.addEventListener('click', () => {
-                        carousel.scrollBy({
-                            left: -getScrollAmount(),
-                            behavior: 'smooth'
-                        });
-                    });
-
-                    nextBtn.addEventListener('click', () => {
-                        carousel.scrollBy({
-                            left: getScrollAmount(),
-                            behavior: 'smooth'
-                        });
-                    });
-
-                    // スクロール位置に応じた矢印ボタンのフェード＆有効化制御
-                    const updateNavButtons = () => {
-                        const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
-                        
-                        // 左端の判定
-                        if (carousel.scrollLeft <= 10) {
-                            prevBtn.style.opacity = '0.2';
-                            prevBtn.style.pointerEvents = 'none';
-                        } else {
-                            prevBtn.style.opacity = '1';
-                            prevBtn.style.pointerEvents = 'auto';
-                        }
-
-                        // 右端の判定
-                        if (carousel.scrollLeft >= maxScrollLeft - 10) {
-                            nextBtn.style.opacity = '0.2';
-                            nextBtn.style.pointerEvents = 'none';
-                        } else {
-                            nextBtn.style.opacity = '1';
-                            nextBtn.style.pointerEvents = 'auto';
-                        }
+                    const updateBtns = () => {
+                        prevBtn.style.opacity = carousel.scrollLeft <= 10 ? '0.2' : '1';
+                        prevBtn.style.pointerEvents = carousel.scrollLeft <= 10 ? 'none' : 'auto';
+                        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                        nextBtn.style.opacity = carousel.scrollLeft >= maxScroll - 10 ? '0.2' : '1';
+                        nextBtn.style.pointerEvents = carousel.scrollLeft >= maxScroll - 10 ? 'none' : 'auto';
                     };
-
-                    // イベント登録
-                    carousel.addEventListener('scroll', updateNavButtons);
-                    // 初期表示位置(Sapporoフォーカス後)の更新判定用のバッファ
-                    setTimeout(updateNavButtons, 350);
-                    window.addEventListener('resize', updateNavButtons);
+                    carousel.addEventListener('scroll', updateBtns);
+                    setTimeout(updateBtns, 350);
+                    window.addEventListener('resize', updateBtns);
                 }
             }
         });
