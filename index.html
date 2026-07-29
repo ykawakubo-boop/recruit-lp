@@ -189,16 +189,24 @@
         }
         .accordion-row.active, .accordion-row:hover { background-color: #fafafa; }
 
-        /* ▼ サマリー追加によるレイアウト変更 */
+        /* ▼ サマリー追加によるレイアウト変更（デザイン強化版） */
         .accordion-headline-wrap { 
-            display: flex; align-items: center; justify-content: space-between; gap: 40px; 
+            display: flex; align-items: center; justify-content: flex-start; 
         }
         .accordion-title-area { 
-            display: flex; align-items: baseline; 
+            display: flex; align-items: center; 
+            width: 45%; flex-shrink: 0;
+        }
+        .accordion-title-text {
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease;
         }
         .accordion-summary { 
-            width: 48%; max-width: 500px; font-size: 13.5px; 
-            color: var(--text-muted); line-height: 1.8; margin: 0; 
+            width: 55%; font-size: 13px; 
+            color: #666666; line-height: 1.8; margin: 0; 
+            padding-left: 40px; border-left: 1px solid #e2e8f0;
+            letter-spacing: 0.04em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         /* ▲ 変更ここまで */
 
@@ -208,19 +216,30 @@
         }
         .accordion-title-en {
             font-family: 'Bodoni Moda', serif; font-size: clamp(24px, 3.5vw, 40px); font-weight: 900;
-            text-transform: uppercase; padding-left: 0; transition: padding-left 0.3s ease; line-height: 1;
+            text-transform: uppercase; line-height: 1; margin: 0;
         }
-        .accordion-title-jp { font-size: 15px; font-weight: 700; color: #888; margin-left: 24px; transition: color 0.3s ease; }
+        .accordion-title-jp { font-size: 14px; font-weight: 700; color: #888; margin-top: 8px; transition: color 0.3s ease; }
 
         /* ホバー時の変化 */
         @media (hover: hover) {
             .accordion-row:hover .accordion-num { color: var(--accent-blue); }
-            .accordion-row:hover .accordion-title-en { padding-left: 12px; }
+            .accordion-row:hover .accordion-title-text { transform: translateX(12px); }
             .accordion-row:hover .accordion-title-jp { color: var(--text-dark); }
+            /* ホバー時にサマリー文をスッとフェードアウトさせる */
+            .accordion-row:hover .accordion-summary { 
+                opacity: 0; 
+                transform: translateX(20px); 
+                pointer-events: none;
+            }
         }
         .accordion-row.active .accordion-num { color: var(--accent-blue); }
-        .accordion-row.active .accordion-title-en { padding-left: 12px; }
+        .accordion-row.active .accordion-title-text { transform: translateX(12px); }
         .accordion-row.active .accordion-title-jp { color: var(--text-dark); }
+        .accordion-row.active .accordion-summary { 
+            opacity: 0; 
+            transform: translateX(20px); 
+            pointer-events: none;
+        }
 
         /* アコーディオン開閉 */
         .accordion-details {
@@ -459,15 +478,32 @@
             /* JOBS */
             .jobs-section { padding-top: 60px; padding-bottom: 0; }
             .accordion-row { padding: 32px 5%; }
-            .accordion-row.active { padding: 32px 5%; }
+            .accordion-row.active { padding: 32px 5%; background-color: #fafbfc; }
 
             /* ▼ スマホ版サマリー追加によるレイアウト変更 */
-            .accordion-headline-wrap { flex-direction: column; align-items: flex-start; gap: 0; }
-            .accordion-title-area { display: flex; flex-wrap: wrap; align-items: center; width: 100%; }
-            .accordion-num { font-size: 24px; width: 40px; margin-right: 16px; }
-            .accordion-title-en { font-size: 22px; margin: 0; }
-            .accordion-title-jp { width: 100%; margin-left: 56px; margin-top: 8px; font-size: 13px; }
-            .accordion-summary { width: 100%; margin-top: 12px; padding-left: 56px; font-size: 12.5px; line-height: 1.6; }
+            .accordion-headline-wrap { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .accordion-title-area { display: flex; align-items: flex-start; width: 100%; }
+            .accordion-num { font-size: 26px; width: 44px; margin-right: 12px; margin-top: -2px; }
+            
+            .accordion-title-en { font-size: 24px; margin: 0; letter-spacing: 0.05em; }
+            .accordion-title-jp { margin-top: 4px; font-size: 13px; color: #777; }
+            
+            /* サマリーのデザインをスマホ向けにカッコよく */
+            .accordion-summary { 
+                width: 100%; margin-top: 0; padding-left: 16px; 
+                border-left: 2px solid var(--accent-blue); 
+                font-size: 13px; line-height: 1.7; color: #444;
+            }
+            
+            /* PCのアニメーションをスマホでは無効化（サマリーを消さない） */
+            .accordion-title-text { transform: none !important; }
+            .accordion-row.active .accordion-title-text { transform: none !important; }
+            .accordion-row:hover .accordion-summary,
+            .accordion-row.active .accordion-summary {
+                opacity: 1 !important;
+                transform: none !important;
+                pointer-events: auto !important;
+            }
             /* ▲ 変更ここまで */
 
             .accordion-inner-grid { padding-left: 0; gap: 24px; }
@@ -606,8 +642,10 @@
                     <div class="accordion-headline-wrap">
                         <div class="accordion-title-area">
                             <span class="accordion-num">01</span>
-                            <h3 class="accordion-title-en">ENGINEER</h3>
-                            <span class="accordion-title-jp">ITエンジニア</span>
+                            <div class="accordion-title-text">
+                                <h3 class="accordion-title-en">ENGINEER</h3>
+                                <span class="accordion-title-jp">ITエンジニア</span>
+                            </div>
                         </div>
                         <p class="accordion-summary">自社開発のECシステム「F.ACE」を中心にECビジネスの中核を担うプロダクトの設計・開発・運用を行います。</p>
                     </div>
@@ -639,8 +677,10 @@
                     <div class="accordion-headline-wrap">
                         <div class="accordion-title-area">
                             <span class="accordion-num">02</span>
-                            <h3 class="accordion-title-en">DESIGN</h3>
-                            <span class="accordion-title-jp">WEBデザイナー・コーダー・ディレクター</span>
+                            <div class="accordion-title-text">
+                                <h3 class="accordion-title-en">DESIGN</h3>
+                                <span class="accordion-title-jp">WEBデザイナー・コーダー・ディレクター</span>
+                            </div>
                         </div>
                         <p class="accordion-summary">100サイト以上のファッションEC制作・運用実績を活かし、ブランドの世界観を表現するビジュアルデザインから、ユーザビリティに配慮した「売れる」サイト構築まで、分析に基づいたクリエイティブを提案・制作します。</p>
                     </div>
@@ -672,8 +712,10 @@
                     <div class="accordion-headline-wrap">
                         <div class="accordion-title-area">
                             <span class="accordion-num">03</span>
-                            <h3 class="accordion-title-en">MARKETING</h3>
-                            <span class="accordion-title-jp">WEBマーケター</span>
+                            <div class="accordion-title-text">
+                                <h3 class="accordion-title-en">MARKETING</h3>
+                                <span class="accordion-title-jp">WEBマーケター</span>
+                            </div>
                         </div>
                         <p class="accordion-summary">アパレルに特化した知見を活かし、データ分析・解析に基づく広告運用の最適化を実施します。顧客伴走型のプロモーションを企画・実行します。</p>
                     </div>
@@ -705,8 +747,10 @@
                     <div class="accordion-headline-wrap">
                         <div class="accordion-title-area">
                             <span class="accordion-num">04</span>
-                            <h3 class="accordion-title-en">STUDIO & EC</h3>
-                            <span class="accordion-title-jp">スタジオ＆ECオペレーション</span>
+                            <div class="accordion-title-text">
+                                <h3 class="accordion-title-en">STUDIO & EC</h3>
+                                <span class="accordion-title-jp">スタジオ＆ECオペレーション</span>
+                            </div>
                         </div>
                         <p class="accordion-summary">首都圏9拠点の自社スタジオでの撮影ディレクションや自動撮影機等を活用した商品データ作成を担う「スタジオ業務」と、大手ブランド公式ECサイトの受発注・在庫管理、キャンペーン設定等を担う「バックオフィス業務」を通じて、ECの最前線を支えます。</p>
                     </div>
