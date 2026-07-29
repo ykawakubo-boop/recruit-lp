@@ -189,7 +189,19 @@
         }
         .accordion-row.active, .accordion-row:hover { background-color: #fafafa; }
 
-        .accordion-headline-wrap { display: flex; align-items: baseline; justify-content: flex-start; }
+        /* ▼ サマリー追加によるレイアウト変更 */
+        .accordion-headline-wrap { 
+            display: flex; align-items: center; justify-content: space-between; gap: 40px; 
+        }
+        .accordion-title-area { 
+            display: flex; align-items: baseline; 
+        }
+        .accordion-summary { 
+            width: 48%; max-width: 500px; font-size: 13.5px; 
+            color: var(--text-muted); line-height: 1.8; margin: 0; 
+        }
+        /* ▲ 変更ここまで */
+
         .accordion-num {
             font-family: 'Bodoni Moda', serif; font-size: 32px; font-weight: 900;
             color: #e2e8f0; margin-right: 40px; width: 60px; transition: color 0.3s ease;
@@ -210,7 +222,7 @@
         .accordion-row.active .accordion-title-en { padding-left: 12px; }
         .accordion-row.active .accordion-title-jp { color: var(--text-dark); }
 
-        /* 以前の安定した開閉方式（max-height）に変更 */
+        /* アコーディオン開閉 */
         .accordion-details {
             max-height: 0; overflow: hidden; opacity: 0;
             transition: max-height 0.6s ease, opacity 0.4s ease;
@@ -448,10 +460,16 @@
             .jobs-section { padding-top: 60px; padding-bottom: 0; }
             .accordion-row { padding: 32px 5%; }
             .accordion-row.active { padding: 32px 5%; }
-            .accordion-headline-wrap { flex-wrap: wrap; align-items: center; }
+
+            /* ▼ スマホ版サマリー追加によるレイアウト変更 */
+            .accordion-headline-wrap { flex-direction: column; align-items: flex-start; gap: 0; }
+            .accordion-title-area { display: flex; flex-wrap: wrap; align-items: center; width: 100%; }
             .accordion-num { font-size: 24px; width: 40px; margin-right: 16px; }
             .accordion-title-en { font-size: 22px; margin: 0; }
             .accordion-title-jp { width: 100%; margin-left: 56px; margin-top: 8px; font-size: 13px; }
+            .accordion-summary { width: 100%; margin-top: 12px; padding-left: 56px; font-size: 12.5px; line-height: 1.6; }
+            /* ▲ 変更ここまで */
+
             .accordion-inner-grid { padding-left: 0; gap: 24px; }
             .job-cinematic-image { display: none; } 
             
@@ -539,8 +557,8 @@
         <div class="section-tag">BUSINESS</div>
         <h2 class="business-concept">一社完結。だからこそ、<br class="sp-only">どこよりも速く美しい。</h2>
         <p class="business-lead">
-            ダイアモンドヘッドはファッションアパレルを中心に、<br class="pc-only">
-            プロスポーツチームや様々な業界の小売まで<br class="pc-only">
+            ダイアモンドヘッドは、ファッションアパレルを中心に、<br class="pc-only">
+            プロスポーツチームや多様な業界の小売まで、<br class="pc-only">
             幅広くECフルサービスを提供しています。
         </p>
 
@@ -550,7 +568,7 @@
                 <h3 class="story-title">企画から販売を完結させる<br>「スケール」</h3>
                 <p class="story-body">
                     自分が関わったプロダクトが、毎日何十万人ものユーザーの手に渡っていく――。そのダイナミックなスケール感を、日々の仕事の中でリアルに実感できます。<br>
-                    私たちの強みは、「システム開発」「WEBデザイン」「WEBマーケティング」「写真撮影」「倉庫運営」「カスタマーサポート」までを一貫して自社で手がけていることです。
+                    私たちの強みは、「システム開発」「WEBデザイン」「WEBマーケティング」「写真撮影」「物流・倉庫運営」「カスタマーサポート」に至るまで、クライアントのEC運営に必要な業務をすべて自社で一貫して手がけていることです。
                 </p>
             </div>
             <div class="story-image-wrapper">
@@ -563,8 +581,8 @@
                 <div class="story-label">DISCRETION</div>
                 <h3 class="story-title">自分の意志で未来を動かす<br>「裁量」</h3>
                 <p class="story-body">
-                    年次やキャリアに関係なく、良いアイデアは積極的に採用され、若手が中心となってプロジェクトを動かしていくチャンスが豊富にあります。<br>
-                    ベンチャーマインドが息づく風通しの良い社風で、挑戦を歓迎するカルチャーが特徴です。一方で手厚い研修やサポート体制も完備。一人ひとりが主体的に活躍し、成長を目指せる組織づくりを進めています。
+                    ベンチャーマインドが息づく、風通しの良い社風と挑戦を歓迎するカルチャーが特徴です。一人ひとりが主体的に活躍し、成長できる組織づくりを進めています。<br>
+                    一方で、SCSKグループの一員としての安定した基盤や手厚いサポート体制も完備。一人ひとりが主体的に活躍し、成長を目指せる組織づくりを進めています。
                 </p>
             </div>
             <div class="story-image-wrapper">
@@ -586,9 +604,12 @@
                 <!-- 01 ENGINEER -->
                 <div class="accordion-row" data-job-index="0">
                     <div class="accordion-headline-wrap">
-                        <span class="accordion-num">01</span>
-                        <h3 class="accordion-title-en">ENGINEER</h3>
-                        <span class="accordion-title-jp">ITエンジニア</span>
+                        <div class="accordion-title-area">
+                            <span class="accordion-num">01</span>
+                            <h3 class="accordion-title-en">ENGINEER</h3>
+                            <span class="accordion-title-jp">ITエンジニア</span>
+                        </div>
+                        <p class="accordion-summary">自社開発のECシステム「F.ACE」を中心にECビジネスの中核を担うプロダクトの設計・開発・運用を行います。</p>
                     </div>
                     <div class="accordion-details">
                         <div class="accordion-inner-grid">
@@ -616,9 +637,12 @@
                 <!-- 02 DESIGN -->
                 <div class="accordion-row" data-job-index="1">
                     <div class="accordion-headline-wrap">
-                        <span class="accordion-num">02</span>
-                        <h3 class="accordion-title-en">DESIGN</h3>
-                        <span class="accordion-title-jp">WEBデザイナー・コーダー・ディレクター</span>
+                        <div class="accordion-title-area">
+                            <span class="accordion-num">02</span>
+                            <h3 class="accordion-title-en">DESIGN</h3>
+                            <span class="accordion-title-jp">WEBデザイナー・コーダー・ディレクター</span>
+                        </div>
+                        <p class="accordion-summary">100サイト以上のファッションEC制作・運用実績を活かし、ブランドの世界観を表現するビジュアルデザインから、ユーザビリティに配慮した「売れる」サイト構築まで、分析に基づいたクリエイティブを提案・制作します。</p>
                     </div>
                     <div class="accordion-details">
                         <div class="accordion-inner-grid">
@@ -646,9 +670,12 @@
                 <!-- 03 MARKETING -->
                 <div class="accordion-row" data-job-index="2">
                     <div class="accordion-headline-wrap">
-                        <span class="accordion-num">03</span>
-                        <h3 class="accordion-title-en">MARKETING</h3>
-                        <span class="accordion-title-jp">WEBマーケター</span>
+                        <div class="accordion-title-area">
+                            <span class="accordion-num">03</span>
+                            <h3 class="accordion-title-en">MARKETING</h3>
+                            <span class="accordion-title-jp">WEBマーケター</span>
+                        </div>
+                        <p class="accordion-summary">アパレルに特化した知見を活かし、データ分析・解析に基づく広告運用の最適化を実施します。顧客伴走型のプロモーションを企画・実行します。</p>
                     </div>
                     <div class="accordion-details">
                         <div class="accordion-inner-grid">
@@ -676,9 +703,12 @@
                 <!-- 04 STUDIO & EC -->
                 <div class="accordion-row" data-job-index="3">
                     <div class="accordion-headline-wrap">
-                        <span class="accordion-num">04</span>
-                        <h3 class="accordion-title-en">STUDIO & EC</h3>
-                        <span class="accordion-title-jp">スタジオ＆ECオペレーション</span>
+                        <div class="accordion-title-area">
+                            <span class="accordion-num">04</span>
+                            <h3 class="accordion-title-en">STUDIO & EC</h3>
+                            <span class="accordion-title-jp">スタジオ＆ECオペレーション</span>
+                        </div>
+                        <p class="accordion-summary">首都圏9拠点の自社スタジオでの撮影ディレクションや自動撮影機等を活用した商品データ作成を担う「スタジオ業務」と、大手ブランド公式ECサイトの受発注・在庫管理、キャンペーン設定等を担う「バックオフィス業務」を通じて、ECの最前線を支えます。</p>
                     </div>
                     <div class="accordion-details">
                         <div class="accordion-inner-grid">
@@ -763,7 +793,7 @@
             <div class="culture-text">
                 <h3 class="culture-title">02. EVENTS</h3>
                 <p class="culture-desc">
-                    爽快な汗を流すマラソン大会、春のお花見、秋の本格的なハロウィンパーティー、週末の白熱したフットサル・バスケットボールなど、<br class="pc-only">1年を通して様々な社内イベントが活発に行われています。
+                    マラソン大会、春のお花見、本格的なハロウィンパーティー、フットサル・バスケットボールなど、1年を通してさまざまな社内イベントを開催しています。<br class="pc-only">
                 </p>
             </div>
             <div class="culture-images grid-3">
@@ -823,7 +853,7 @@
                     <li>出産休暇</li>
                     <li>忌引休暇</li>
                     <li>産前産後休暇</li>
-                    <li>育児休暇 <span style="font-size: 13px; margin-left: 8px; color: var(--accent-blue); font-weight: bold;">女性の取得率 100％！</span></li>
+                    <li>育児休暇（女性取得率100％）</li>
                     <li>子の看護休暇 <span style="font-size: 13px; margin-left: 8px; color: var(--accent-blue); font-weight: bold;">入卒園・入学式に参加する場合も利用可能</span></li>
                     <li>両立支援休暇 <span style="font-size: 13px; margin-left: 8px; color: var(--accent-blue); font-weight: bold;">家族の看護やお子様の学校行事に利用可能</span></li>
                     <li>その他会社指定の休暇</li>
